@@ -11,6 +11,9 @@ python = "3.11.*"
 # Graphical User Interface
 pyside6 = "^6.5.2"
 
+# Engine
+pillow = "^10.0.0"
+
 [tool.poetry.dev-dependencies]
 # Base tools
 flake8 = "~6.1.0"
