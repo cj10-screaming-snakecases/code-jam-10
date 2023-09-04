@@ -8,13 +8,12 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "3.11.*"
 
-<<<<<<< Updated upstream
-=======
 # Graphical User Interface
 pyside6 = "^6.5.2"
+
+# Engine
 pillow = "^10.0.0"
 
->>>>>>> Stashed changes
 [tool.poetry.dev-dependencies]
 # Base tools
 flake8 = "~6.1.0"

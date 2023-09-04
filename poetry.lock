@@ -255,41 +255,6 @@ snowballstemmer = ">=2.2.0"
 toml = ["tomli (>=1.2.3)"]
 
 [[package]]
-name = "pyexiv2"
-version = "2.8.2"
-description = "Read/Write metadata(including EXIF, IPTC, XMP), comment and ICC Profile embedded in digital images."
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "pyexiv2-2.8.2-cp310-none-macosx_12_0_x86_64.whl", hash = "sha256:b2ef8ac26c84685768a5e264f5ee4ec19a84208f6843461511411cb272ef0cae"},
-    {file = "pyexiv2-2.8.2-cp310-none-macosx_13_0_x86_64.whl", hash = "sha256:70e3963bf8acbc8e4b784db261b72cf9e9acfdac5f3f4a37efd93742d7fdec34"},
-    {file = "pyexiv2-2.8.2-cp310-none-manylinux2014_x86_64.whl", hash = "sha256:4acaac4d1546c4fa280ac775bd44439b5a68c8ffa5d292867ec9751e89be4d3b"},
-    {file = "pyexiv2-2.8.2-cp310-none-win_amd64.whl", hash = "sha256:a86518cf0134444e5757c5fc29b10877534dc0d577d446d5dd84cfcd1d87d526"},
-    {file = "pyexiv2-2.8.2-cp311-none-macosx_12_0_x86_64.whl", hash = "sha256:d695f60b4af0ade4a7f068fddc5fd32a28c05e281dbd10e2d2a89d77d9fc2622"},
-    {file = "pyexiv2-2.8.2-cp311-none-macosx_13_0_x86_64.whl", hash = "sha256:468da66c51ee2a9ed03a298b2e98c5a59f4639c10ab5faaa3c833182ee6541dc"},
-    {file = "pyexiv2-2.8.2-cp311-none-manylinux2014_x86_64.whl", hash = "sha256:2a6d588d1638bb7708ade975ede4acae5052371ad1dd736d393952b7981b89ed"},
-    {file = "pyexiv2-2.8.2-cp311-none-win_amd64.whl", hash = "sha256:1e91cf9e2478e95b3df8033f02a9258452c32e1827b20485d9331ac36254b67a"},
-    {file = "pyexiv2-2.8.2-cp35-none-macosx_12_0_x86_64.whl", hash = "sha256:1b816cae4fba03f9e3bb498eae9d07ad58ba501076771aae4786d0b4c5e8cc47"},
-    {file = "pyexiv2-2.8.2-cp35-none-macosx_13_0_x86_64.whl", hash = "sha256:5afb05d4852e2c6bfff5960b5679ec9a0d85a85d8f9fc8167c3c11870031b45a"},
-    {file = "pyexiv2-2.8.2-cp35-none-win_amd64.whl", hash = "sha256:a886aee3064160a42b7c2edfa74148f6e2f7f79605799d9d422977add885026f"},
-    {file = "pyexiv2-2.8.2-cp36-none-macosx_12_0_x86_64.whl", hash = "sha256:b4cbf258a5d2486130abc53678d02c194f0e0b2941fc28e9a725025e95e6f0c4"},
-    {file = "pyexiv2-2.8.2-cp36-none-macosx_13_0_x86_64.whl", hash = "sha256:86c3428f6c7e7d41a959ad0a5adcf744ea6ab081c0c88827430a01752b5476cb"},
-    {file = "pyexiv2-2.8.2-cp36-none-win_amd64.whl", hash = "sha256:7392f9bb757e2574866405157ea0ea19fbf5a8f9a83dc9a2817ac787b7504cae"},
-    {file = "pyexiv2-2.8.2-cp37-none-macosx_12_0_x86_64.whl", hash = "sha256:06fdca0c1b9034a30441db0a91c412ee883e14b951ec8136871ba9d51d74b348"},
-    {file = "pyexiv2-2.8.2-cp37-none-macosx_13_0_x86_64.whl", hash = "sha256:0244d598afca420ee555899094dbaf8a05de73b380675c4d6873555f53320303"},
-    {file = "pyexiv2-2.8.2-cp37-none-manylinux2014_x86_64.whl", hash = "sha256:b1ca70f648b061894439b0be5c6de24bcf13034593bf6d9902e42c3eeb5da9c8"},
-    {file = "pyexiv2-2.8.2-cp37-none-win_amd64.whl", hash = "sha256:03ced33df0dc6f0441037c71aa38caefea71256e38727117a16b605252293d81"},
-    {file = "pyexiv2-2.8.2-cp38-none-macosx_12_0_x86_64.whl", hash = "sha256:26602c459122edb78d3bedf31259d99bed2b703c90ee76688f43949a1c6ff08c"},
-    {file = "pyexiv2-2.8.2-cp38-none-macosx_13_0_x86_64.whl", hash = "sha256:7515653858de3dbc723bee624fa7851f1ca8c0af44bf93d4d0f51c741f4e6c83"},
-    {file = "pyexiv2-2.8.2-cp38-none-manylinux2014_x86_64.whl", hash = "sha256:5617104912a5f356b989eff5834e7a4a2694d4b3a5c1c0f4c59feb805c140f86"},
-    {file = "pyexiv2-2.8.2-cp38-none-win_amd64.whl", hash = "sha256:27dcc496a0ed65267772510ac36d2bc4fadc6b7fade987695c3875c439a5beeb"},
-    {file = "pyexiv2-2.8.2-cp39-none-macosx_12_0_x86_64.whl", hash = "sha256:24c8fe931d62078b051b83e8e6d8f5dfa4f960c5e3fa98f47d01d660fa977a75"},
-    {file = "pyexiv2-2.8.2-cp39-none-macosx_13_0_x86_64.whl", hash = "sha256:cecc4b017deefca49dc27252798f3351c67b6bbfc079e44524a4abdc41c8cac3"},
-    {file = "pyexiv2-2.8.2-cp39-none-manylinux2014_x86_64.whl", hash = "sha256:530c6d41c818a8b41a54e3605e906732913f8e068952b4b6ba5ad3673eb07773"},
-    {file = "pyexiv2-2.8.2-cp39-none-win_amd64.whl", hash = "sha256:7d577ce634b4c7312d14fb50cadeb51694df082877e0e02cf648811cdd6d4fa5"},
-]
-
-[[package]]
 name = "pyflakes"
 version = "3.1.0"
 description = "passive checker of Python programs"
@@ -299,6 +264,63 @@ files = [
     {file = "pyflakes-3.1.0-py2.py3-none-any.whl", hash = "sha256:4132f6d49cb4dae6819e5379898f2b8cce3c5f23994194c24b77d5da2e36f774"},
     {file = "pyflakes-3.1.0.tar.gz", hash = "sha256:a0aae034c444db0071aa077972ba4768d40c830d9539fd45bf4cd3f8f6992efc"},
 ]
+
+[[package]]
+name = "pyside6"
+version = "6.5.2"
+description = "Python bindings for the Qt cross-platform application and UI framework"
+optional = false
+python-versions = "<3.12,>=3.7"
+files = [
+    {file = "PySide6-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:b509e4d3ffde4a594d70000f881452643c9aaed800bad2959882075c01f72428"},
+    {file = "PySide6-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:e6d879ca0f8827a7866856fbedd08857e4bd8f9a858dc998dea10d1913e97938"},
+    {file = "PySide6-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:0356dc73c138c25b980d716e425801a61d4aa1d9f7811cf8a825499edfd4d1ae"},
+    {file = "PySide6-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:f0944cb0da34dc3b0bb62c7a20b6618667760eccdaa4262a90ba7f64b19fb783"},
+    {file = "PySide6-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:ca259b4377eb74e4c9cb74a2afb18c37658f0c83dc18229d1f325974739f6df2"},
+    {file = "PySide6-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:ad82cb12f805c5bec7693d6f1c0d6e4ae4b9462eb368a81bc0d3091de8fae76e"},
+]
+
+[package.dependencies]
+PySide6-Addons = "6.5.2"
+PySide6-Essentials = "6.5.2"
+shiboken6 = "6.5.2"
+
+[[package]]
+name = "pyside6-addons"
+version = "6.5.2"
+description = "Python bindings for the Qt cross-platform application and UI framework (Addons)"
+optional = false
+python-versions = "<3.12,>=3.7"
+files = [
+    {file = "PySide6_Addons-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:a31cb7eca2e8cd80332e131124ed9ad197610a2a80eac4f2bd58e9124e38060a"},
+    {file = "PySide6_Addons-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:bea98d823179b814109dcf3ac6c8a0eddf886570aa9ef8ef09b6bae37bc227ca"},
+    {file = "PySide6_Addons-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:c77e06fd511cc8b9292c01724504d6806c33c1f5904bc59f5a8c560a74c15438"},
+    {file = "PySide6_Addons-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:15bf592e54b3409853c3db23bdb20fb14725b84d50feee862e8b2a3a8a3a0627"},
+    {file = "PySide6_Addons-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:26b55a658fed94a0b3c09927b408663860aca530bf6e83040dcb8fdcc221877d"},
+    {file = "PySide6_Addons-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:793a53b7db32f7780fa9571a14f0bce3700604247127cdb2125b380c577a92eb"},
+]
+
+[package.dependencies]
+PySide6-Essentials = "6.5.2"
+shiboken6 = "6.5.2"
+
+[[package]]
+name = "pyside6-essentials"
+version = "6.5.2"
+description = "Python bindings for the Qt cross-platform application and UI framework (Essentials)"
+optional = false
+python-versions = "<3.12,>=3.7"
+files = [
+    {file = "PySide6_Essentials-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:c9606de7afaee57f2c0861cc4b973bd630556dd38ec0d1542560cba81c27ab81"},
+    {file = "PySide6_Essentials-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:1620e82b38714a1570b142c01694d0415a25526517b24620ff9b00c9f76cfca9"},
+    {file = "PySide6_Essentials-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:e67b10f96f0ac5ed24d7e3c4985d37c70550a9dee6f38b127faf5e5341151665"},
+    {file = "PySide6_Essentials-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:149f1db77d82f35c6a88a403f5297645ebe737df28e163ac4dc402dfa0b961ee"},
+    {file = "PySide6_Essentials-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:4be6ed964cb863823f2788717b9a6ba8f1d94eb3fa2bf1584f4621ab5e021e27"},
+    {file = "PySide6_Essentials-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:6b21cf78b33554f793d409d79b828d9578d34200c86f813ef1b8dac756589b71"},
+]
+
+[package.dependencies]
+shiboken6 = "6.5.2"
 
 [[package]]
 name = "pyyaml"
@@ -376,6 +398,21 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[l
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
+name = "shiboken6"
+version = "6.5.2"
+description = "Python/C++ bindings helper module"
+optional = false
+python-versions = "<3.12,>=3.7"
+files = [
+    {file = "shiboken6-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:ba7af130d34ea03e329baebd80982d2635aee7e58dbb07a07085509a501ed03f"},
+    {file = "shiboken6-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:3fbc35ff3c19e7d39433671bfc1be3d7fa9d071bfdd0ffe1c2a4d27acd6cf6a5"},
+    {file = "shiboken6-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:558bdb3b0ccc8aac5f9029eabfd6ad8d41f93a87cd7f54395e07732fce39280d"},
+    {file = "shiboken6-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:4e073b40734a7f9cc6ac289c735362967bb45c34f591f7c0fab7cef1d62e6a66"},
+    {file = "shiboken6-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:cc89759aabafce49b629b189ed7c81986fedaac695714a4eed1aaeb16783c6a9"},
+    {file = "shiboken6-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:e60d8dd3292e3f87662b9e37ae5c558c519f8250da627c473b68bd8d24ed3243"},
+]
+
+[[package]]
 name = "snowballstemmer"
 version = "2.2.0"
 description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
@@ -409,8 +446,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.*"
-<<<<<<< Updated upstream
-content-hash = "fa577c458392574c1674bb09c8ad0cd4e05532b445955b4292b4002b75405318"
-=======
-content-hash = "6a54312ce808ee1b0fa3d7e966c62fb52758b31cc3954edfe31cac2ecce4cd72"
->>>>>>> Stashed changes
+content-hash = "d377d9ea31ca9d682dd0098463ea0c6beb0953c57aa179df142b52c3ae4c2bb3"
