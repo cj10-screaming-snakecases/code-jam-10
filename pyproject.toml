@@ -8,6 +8,9 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "3.11.*"
 
+# Graphical User Interface
+pyside6 = "^6.5.2"
+
 [tool.poetry.dev-dependencies]
 # Base tools
 flake8 = "~6.1.0"
