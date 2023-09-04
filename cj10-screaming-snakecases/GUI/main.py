@@ -1,12 +1,18 @@
+"""GUI for the game."""
 import sys
-from PySide6 import QtWidgets, QtGui, QtCore
+from PySide6 import QtWidgets, QtCore
+
 
 class MainWindow(QtWidgets.QMainWindow):
+    """Main Window class."""
+
     def __init__(self) -> None:
+        """Initialize Main Window class."""
         super().__init__()
         self.initialize_UI()
 
     def initialize_UI(self) -> None:
+        """Initialize GUI elements."""
         self.resize(1000, 700)
 
         qrect = self.frameGeometry()
@@ -18,11 +24,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setStyleSheet('background: #efefef;')
 
-        self.addToolBar(QtCore.Qt.ToolBarArea.LeftToolBarArea, self.left_bar())
-        self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, self.top_bar())
-        self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, self.right_bar())
+        self.addToolBar(
+            QtCore.Qt.ToolBarArea.LeftToolBarArea,
+            self.left_bar()
+        )
+        self.addToolBar(
+            QtCore.Qt.ToolBarArea.TopToolBarArea,
+            self.top_bar()
+        )
+        self.addToolBar(
+            QtCore.Qt.ToolBarArea.RightToolBarArea,
+            self.right_bar()
+        )
 
     def left_bar(self) -> QtWidgets.QToolBar:
+        """Create and return a QToolBar for selecting tools on the left."""
         tool_bar = QtWidgets.QToolBar('Tool Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(40)
@@ -34,7 +50,8 @@ class MainWindow(QtWidgets.QMainWindow):
         return tool_bar
 
     def top_bar(self) -> QtWidgets.QToolBar:
-        tool_bar = QtWidgets.QToolBar('placeholder')
+        """Create and return a QToolBar for displaying title on the top."""
+        tool_bar = QtWidgets.QToolBar('Title bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedHeight(35)
         tool_bar.setStyleSheet(
@@ -51,9 +68,15 @@ class MainWindow(QtWidgets.QMainWindow):
         )
 
         left_spacer = QtWidgets.QWidget()
-        left_spacer.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+        left_spacer.setSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Preferred
+        )
         right_spacer = QtWidgets.QWidget()
-        right_spacer.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
+        right_spacer.setSizePolicy(
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Preferred
+        )
 
         tool_bar.addWidget(left_spacer)
         tool_bar.addWidget(self.title)
@@ -62,6 +85,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return tool_bar
 
     def right_bar(self) -> QtWidgets.QToolBar:
+        """Create and return a QToolBar for configuration on the right."""
         tool_bar = QtWidgets.QToolBar('Configuration Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(175)
@@ -72,13 +96,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return tool_bar
 
+
 def main() -> None:
+    """Entry Point."""
     app = QtWidgets.QApplication([])
 
     window = MainWindow()
     window.show()
 
     sys.exit(app.exec())
+
 
 if __name__ == "__main__":
     main()
