@@ -1,10 +1,10 @@
 """GUI for the game."""
 import sys
-from PySide6 import QtCore, QtWidgets
+from PySide6 import QtCore, QtWidgets, QtGui
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    """Create a new window"""
+    """Create a new window."""
 
     def __init__(self) -> None:
         """Initialize Main Window class."""
@@ -12,7 +12,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.initialize_ui()
 
     def initialize_ui(self) -> None:
-        """Initializes the main layout"""
+        """Initialize the main layout and window settings."""
         self.resize(1000, 670)
 
         qrect = self.frameGeometry()
@@ -28,7 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.configurationBar()
 
     def titleBar(self) -> None:
-        """Creates title bar"""
+        """Create the title bar."""
         tool_bar = QtWidgets.QToolBar('Title Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedHeight(35)
@@ -59,8 +59,8 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar.addWidget(right_padding)
         self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tool_bar)
 
-    def menuItems(self):
-        """Creates menu items of application"""
+    def menuItems(self) -> None:
+        """Create the menu items of application and add them to toolbar."""
         menubar = self.menuBar()
         file_menu = menubar.addMenu('File')
         file_menu.addAction('New')
@@ -84,13 +84,20 @@ class MainWindow(QtWidgets.QMainWindow):
         help_menu.addAction('About')
 
     def editToolBar(self) -> None:
-        """Design the tool bar for editing to left side"""
+        """Design the tool bar for editing to left side."""
         tool_bar = QtWidgets.QToolBar('Tool Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(60)
 
         grid_layout = QtWidgets.QGridLayout()
-        # icons = ['crop.png', 'magicwand.png', 'pen.png','picktool.png','resize.png','zoom.png']
+        icons = [
+            'crop.png',
+            'magicwand.png',
+            'pen.png',
+            'picktool.png',
+            'resize.png',
+            'zoom.png'
+        ]
 
         for i in range(6):
             button = QtWidgets.QPushButton()
@@ -101,9 +108,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 'background-color:lightgrey;'
                 'padding-left:-2px;'
             )
-            # icon = QtGui.QIcon(f'icons/{icons[i]}')
-            # button.setIcon(icon)
-            # button.setIconSize(QtCore.QSize(15, 15))
+            icon = QtGui.QIcon(f'icons/{icons[i]}')
+            button.setIcon(icon)
+            button.setIconSize(QtCore.QSize(15, 15))
             grid_layout.addWidget(button, i//1, i % 1)
 
         widget = QtWidgets.QWidget()
@@ -113,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addToolBar(QtCore.Qt.ToolBarArea.LeftToolBarArea, tool_bar)
 
     def configurationBar(self) -> None:
-        """Design the configuration bar to right side"""
+        """Create the configuration bar."""
         tool_bar = QtWidgets.QToolBar('Configuration Bar')
         tool_bar.setStyleSheet(
             'background:lightgrey;'
@@ -125,6 +132,7 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar.addWidget(widget)
 
         self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, tool_bar)
+
 
 def main() -> None:
     """Entry Point."""
