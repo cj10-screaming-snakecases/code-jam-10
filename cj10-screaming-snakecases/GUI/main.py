@@ -21,16 +21,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setWindowTitle('The Screaming Snakecases')
 
-        self.top_bar()
+        self.titleBar()
+        self.menuItems()
         self.editToolBar()
         self.configurationBar()
 
-    def top_bar(self) -> None:
-        """Creats title bar and menu"""
+    def titleBar(self) -> None:
+        """Creates title bar"""
         tool_bar = QtWidgets.QToolBar('Title Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedHeight(35)
-
         self.title = QtWidgets.QLabel('Pixel Heist')
 
         self.title.setStyleSheet(
@@ -57,6 +57,30 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar.addWidget(self.title)
         tool_bar.addWidget(right_padding)
         self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tool_bar)
+
+    def menuItems(self):
+        """Creates menu items of application"""
+        menubar = self.menuBar()
+        file_menu = menubar.addMenu('File')
+        file_menu.addAction('New')
+        file_menu.addAction('Open')
+        file_menu.addAction('Save')
+        file_menu.addAction('LogOut')
+        file_menu.addAction('Exit')
+
+        edit_menu = menubar.addMenu('Edit')
+        edit_menu.addAction('Undo')
+        edit_menu.addAction('Redo')
+        edit_menu.addAction('Cut')
+        edit_menu.addAction('Copy')
+
+        view_menu = menubar.addMenu('View')
+        view_menu.addAction('Zoom In')
+        view_menu.addAction('Zoom Out')
+        view_menu.addAction('Reset Zoom')
+
+        help_menu = menubar.addMenu('Help')
+        help_menu.addAction('About')
 
     def editToolBar(self) -> None:
         """Design the tool bar for editing to left side"""
