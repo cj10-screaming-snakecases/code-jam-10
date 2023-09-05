@@ -1,5 +1,5 @@
+"""GUI for the game."""
 import sys
-
 from PySide6 import QtCore, QtWidgets
 
 
@@ -7,10 +7,11 @@ class MainWindow(QtWidgets.QMainWindow):
     """Create a new window"""
 
     def __init__(self) -> None:
+        """Initialize Main Window class."""
         super().__init__()
-        self.initialize_UI()
+        self.initialize_ui()
 
-    def initialize_UI(self) -> None:
+    def initialize_ui(self) -> None:
         """Initializes the main layout"""
         self.resize(1000, 670)
 
@@ -125,11 +126,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, tool_bar)
 
-
-if __name__ == "__main__":
+def main() -> None:
+    """Entry Point."""
     app = QtWidgets.QApplication([])
 
     window = MainWindow()
     window.show()
 
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
