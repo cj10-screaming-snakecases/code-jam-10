@@ -9,7 +9,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         """Initialize Main Window class."""
         super().__init__()
-        self.initialize_UI()
+        self.initialize_ui()
 
     def initialize_UI(self) -> None:
         """Initialize GUI elements."""
