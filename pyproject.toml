@@ -13,6 +13,8 @@ pyside6 = "^6.5.2"
 
 # Engine
 Pillow = "^10.0.0"
+flake8 = "^6.1.0"
+isort = "^5.12.0"
 
 [tool.poetry.dev-dependencies]
 # Base tools
