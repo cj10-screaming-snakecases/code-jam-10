@@ -27,5 +27,7 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
+        # D1
+        args: ["--ignore=D10"]
         additional_dependencies:
           - flake8-docstrings~=1.6.0

@@ -1,12 +1,14 @@
 import sys
-from PySide6 import QtWidgets, QtGui, QtCore
+
+from PySide6 import QtCore, QtWidgets
+
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.initialize_UI()
+        self.initialize_ui()
 
-    def initialize_UI(self) -> None:
+    def initialize_ui(self) -> None:
         self.resize(1000, 700)
 
         qrect = self.frameGeometry()
@@ -44,6 +46,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tool_bar)
 
+
 def main() -> None:
     app = QtWidgets.QApplication([])
 
@@ -51,6 +54,7 @@ def main() -> None:
     window.show()
 
     sys.exit(app.exec())
+
 
 if __name__ == "__main__":
     main()
