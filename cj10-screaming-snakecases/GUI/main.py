@@ -1,6 +1,6 @@
 import sys
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 
 class MainWindow(QtWidgets.QMainWindow):
