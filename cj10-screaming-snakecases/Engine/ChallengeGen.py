@@ -1,6 +1,7 @@
 import random
 import string
 import logging
+
 from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 from geopy.geocoders import Nominatim
 
@@ -22,11 +23,15 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    def random_flag(self):
-        if self.form:
-            return f'SNAKE{{{"".join(random.choice(string.ascii_letters.upper()) for _ in range(6))}}}'  # for readability in image
+    @staticmethod
+    def random_flag(form):
+        if form:
+            length = 6
+            choices = string.ascii_uppercase
         else:
-            return f'SNAKE{{{"".join(random.choice(string.ascii_letters + string.digits) for _ in range(13))}}}'
+            length = 13
+            choices = string.ascii_letters + string.digits
+        return "SNAKE" + "".join(random.choices(choices, k=length))
 
     def hide_flag_in_image(self):
         if self.image:
@@ -95,7 +100,7 @@ class ForensicChallengeGenerator:
 
 # Example usage:
 if __name__ == '__main__':
-    image_path = 'C:/Users/cyn0v/Documents/GitHub/code-jam-10/cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'  # Provide the path to your input image
+    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'  # Provide the path to your input image
     logging.debug(f'Image path: {image_path}')
     generator = ForensicChallengeGenerator(image_path)
     generator.hide_flag_in_image()
