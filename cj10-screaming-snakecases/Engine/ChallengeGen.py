@@ -17,17 +17,20 @@ class ForensicChallengeGenerator:
         else:
             print("Image not found. Please check the image path.")
 
-    def random_flag(self):
-        if self.form == True:
-            return f'SNAKE{{{"".join(random.choice(string.ascii_letters.upper()) for _ in range(6))}}}' #for readability in image
+    @staticmethod
+    def random_flag(form):
+        if form:
+            length = 6
+            choices = string.ascii_uppercase
         else:
-            return f'SNAKE{{{"".join(random.choice(string.ascii_letters + string.digits) for _ in range(13))}}}'
+            length = 13
+            choices = string.ascii_letters + string.digits
+        return "SNAKE" + "".join(random.choices(choices, k=length))
 
     def hide_flag_in_image(self):
 
         if self.image:
-            self.form = True
-            flag = self.random_flag()
+            flag = self.random_flag(True)
 
             # Create a copy of the image
             image_with_flag = self.image.copy()
@@ -44,8 +47,7 @@ class ForensicChallengeGenerator:
 
     def hide_flag_in_metadata(self):
         if self.image:
-            self.form = False
-            flag = self.random_flag()
+            flag = self.random_flag(False)
             flag = str(flag)
 
             png_metadata = PngInfo()
