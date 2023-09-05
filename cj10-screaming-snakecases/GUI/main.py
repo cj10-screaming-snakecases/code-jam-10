@@ -11,7 +11,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.initialize_ui()
 
-    def initialize_UI(self) -> None:
+    def initialize_ui(self) -> None:
         """Initialize GUI elements."""
         self.resize(1000, 700)
 
