@@ -1,5 +1,6 @@
 import random
 import string
+
 from PIL import Image, ImageDraw, ImageFont
 from PIL.PngImagePlugin import PngInfo
 
