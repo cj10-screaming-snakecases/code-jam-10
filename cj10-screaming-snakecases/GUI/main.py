@@ -1,6 +1,6 @@
 import sys
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -86,19 +86,23 @@ class MainWindow(QtWidgets.QMainWindow):
         """Design the tool bar for editing to left side"""
         tool_bar = QtWidgets.QToolBar('Tool Bar')
         tool_bar.setMovable(False)
-        tool_bar.setFixedWidth(50)
+        tool_bar.setFixedWidth(60)
 
         grid_layout = QtWidgets.QGridLayout()
+        # icons = ['crop.png', 'magicwand.png', 'pen.png','picktool.png','resize.png','zoom.png']
 
         for i in range(6):
             button = QtWidgets.QPushButton()
             button.setStyleSheet(
-                'width:100%;'
-                'height:10px;'
+                'width:50px;'
+                'height:40px;'
+                'margin:-3px -25px ;'
+                'background-color:lightgrey;'
+                'padding-left:-2px;'
             )
-            icon = QtGui.QIcon(f'icons/img{i}.png')
-            button.setIcon(icon)
-            button.setIconSize(QtCore.QSize(15, 15))
+            # icon = QtGui.QIcon(f'icons/{icons[i]}')
+            # button.setIcon(icon)
+            # button.setIconSize(QtCore.QSize(15, 15))
             grid_layout.addWidget(button, i//1, i % 1)
 
         widget = QtWidgets.QWidget()
@@ -111,7 +115,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Design the configuration bar to right side"""
         tool_bar = QtWidgets.QToolBar('Configuration Bar')
         tool_bar.setStyleSheet(
-            'background:grey;'
+            'background:lightgrey;'
         )
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(200)
