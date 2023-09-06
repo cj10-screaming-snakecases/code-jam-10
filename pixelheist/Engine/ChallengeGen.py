@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 
 # Configure logging
-logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
+logging.basicConfig(filename='pixelheist/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -46,7 +46,7 @@ class ForensicChallengeGenerator:
             font = ImageFont.truetype("arial.ttf", 8)  # Change the font and size as needed
             draw.text((350, 300), flag, font=font, fill="black")  # Adjust fill color as needed
 
-            image_with_flag.save('cj10-screaming-snakecases/Engine/test/img/flag_image_with_text.png')
+            image_with_flag.save('pixelheist/Engine/test/img/flag_image_with_text.png')
 
             logging.debug(f'Flag hidden in the image: {flag}')
         else:
@@ -60,7 +60,7 @@ class ForensicChallengeGenerator:
             png_metadata = PngImagePlugin.PngInfo()
             png_metadata.add_text("Flag", flag)
 
-            self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_metadata_image.png', pnginfo=png_metadata)
+            self.image.save('pixelheist/Engine/test/img/flag_metadata_image.png', pnginfo=png_metadata)
 
             logging.debug(f'Flag hidden in the image metadata: {flag}')
         else:
@@ -98,7 +98,7 @@ class ForensicChallengeGenerator:
         png_metadata.add_text("Longitude", str(longitude))
 
         # Save the image with the hidden flag and location information
-        self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
+        self.image.save('pixelheist/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
 
         logging.debug(f'Flag hidden in the image with geographical location: {flag}')
 
@@ -106,7 +106,7 @@ class ForensicChallengeGenerator:
 # Example usage:
 if __name__ == '__main__':
     # Path to input image
-    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
+    image_path = 'pixelheist/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
     logging.debug(f'Image path: {image_path}')
 
     generator = ForensicChallengeGenerator(image_path)
