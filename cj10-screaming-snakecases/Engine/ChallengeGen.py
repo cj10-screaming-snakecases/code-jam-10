@@ -1,13 +1,15 @@
+import logging
 import random
 import string
-import logging
 
-from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
+import geopy.exc
 from geopy.geocoders import Nominatim
+from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 
 # Configure logging
 logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class ForensicChallengeGenerator:
     def __init__(self, image_path):
@@ -103,8 +105,10 @@ class ForensicChallengeGenerator:
 
 # Example usage:
 if __name__ == '__main__':
-    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'  # Provide the path to your input image
+    # Path to input image
+    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
     logging.debug(f'Image path: {image_path}')
+
     generator = ForensicChallengeGenerator(image_path)
     generator.hide_flag_in_image()
     generator.hide_flag_in_metadata()

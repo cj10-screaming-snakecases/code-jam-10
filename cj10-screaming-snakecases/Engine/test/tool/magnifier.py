@@ -1,7 +1,7 @@
-import pygame
-from pygame.locals import *
-from PIL import Image
 import logging
+
+import pygame
+from PIL import Image
 
 # Configure logging
 logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/magnifier.log', level=logging.DEBUG,
@@ -41,7 +41,7 @@ logging.debug("Background image loaded successfully.")
 running = True
 while running:
     for event in pygame.event.get():
-        if event.type == QUIT:
+        if event.type == pygame.QUIT:
             running = False
 
     # Mouse pos
