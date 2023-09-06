@@ -7,7 +7,6 @@
 
 
 import numpy as np
-from copy import copy
 from PIL import Image, ImageEnhance, ImageFilter
 
 # I have included some basic image manipulation tools here
@@ -18,13 +17,13 @@ class ImageTools:
             image = np.asarray(image)
 
         self.image = image
-        self.ROI = copy(image)
+        self.ROI = image.copy()
 
     def set_ROI(self, x, y, w, h):
         # Sets a Region Of Interest (ROI). This is useful for when we only want to zoom in on 
         # a portion of the image for displaying, etc. By default, ROI = entire image
 
-        self.ROI = copy(self.image[y:y+h, x:x+w])
+        self.ROI = self.image[y:y+h, x:x+w]
 
     
     def zoom(self, scale, x, y, w, h):
