@@ -1,8 +1,7 @@
 from typing import Callable
 
-from PIL import Image
 import numpy as np
-
+from PIL import Image
 
 # Blend modes take 2 images (the base and the new image), and returns a new image
 # The base image may be modified in the process
