@@ -23,15 +23,15 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    @staticmethod
-    def random_flag(form):
-        if form:
+    #static method's not needed, need an instance to generate flag anyway
+    def random_flag(self):
+        if self.form:
             length = 6
             choices = string.ascii_uppercase
         else:
             length = 13
             choices = string.ascii_letters + string.digits
-        return "SNAKE" + "".join(random.choices(choices, k=length))
+        return "SNAKE{" + "".join(random.choices(choices, k=length))+"}"
 
     def hide_flag_in_image(self):
         if self.image:
@@ -69,10 +69,16 @@ class ForensicChallengeGenerator:
     def hide_flag_in_geoloc(self):
         if self.image:
             city = "Amsterdam"
+            
             # Generate a random flag
             flag = self.random_flag()
             flag = str(flag)
+            
             # Use geopy to get geographical location information (latitude and longitude)
+            if self.geolocator is None:
+                logging.error("Geolocation service not available.")
+                return
+            
             try:
                 location = self.geolocator.geocode(city)
                 if location:
@@ -92,11 +98,10 @@ class ForensicChallengeGenerator:
                     logging.debug(f'Flag hidden in the image with geographical location: {flag}')
                 else:
                     logging.error("Failed to obtain geographical location information.")
-            except Exception as e:
+            except geopy.exc.GeocoderTimedOut as e:
                 logging.error(f"Error obtaining geographical location information: {e}")
         else:
             logging.error("Image not found. Please check the image path.")
-        
 
 # Example usage:
 if __name__ == '__main__':
@@ -106,4 +111,3 @@ if __name__ == '__main__':
     generator.hide_flag_in_image()
     generator.hide_flag_in_metadata()
     generator.hide_flag_in_geoloc()
-
