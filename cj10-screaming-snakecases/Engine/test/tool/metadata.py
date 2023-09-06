@@ -29,4 +29,3 @@ metadata = image.info if image else {}
 for key, value in metadata.items():
     print(f"{key}: {value}")
     logging.debug(f"Metadata - {key}: {value}")
-
