@@ -11,9 +11,8 @@ __all__ = [
 from functools import wraps
 from typing import Callable
 
-from PIL import Image
 import numpy as np
-
+from PIL import Image
 
 ImageType = Image.Image
 
