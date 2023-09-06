@@ -70,11 +70,11 @@ class ForensicChallengeGenerator:
         if not self.image:
             logging.error("Image not found. Please check the image path.")
             return
-    
+
         city = "Amsterdam"
         flag = self.random_flag()
         flag = str(flag)
-    
+
         try:
             location = self.geolocator.geocode(city)
             if location:
@@ -91,16 +91,16 @@ class ForensicChallengeGenerator:
             logging.error(f"Error obtaining geographical location information: {e}")
             return
 
-    # Embed the location information into the image metadata
-    png_metadata = PngImagePlugin.PngInfo()
-    png_metadata.add_text("Flag", flag)
-    png_metadata.add_text("Latitude", str(latitude))
-    png_metadata.add_text("Longitude", str(longitude))
-
-    # Save the image with the hidden flag and location information
-    self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
-
-    logging.debug(f'Flag hidden in the image with geographical location: {flag}')
+        # Embed the location information into the image metadata
+        png_metadata = PngImagePlugin.PngInfo()
+        png_metadata.add_text("Flag", flag)
+        png_metadata.add_text("Latitude", str(latitude))
+        png_metadata.add_text("Longitude", str(longitude))
+    
+        # Save the image with the hidden flag and location information
+        self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
+    
+        logging.debug(f'Flag hidden in the image with geographical location: {flag}')
 
 
 # Example usage:
