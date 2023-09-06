@@ -64,9 +64,11 @@ def overlay(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
 
 @_numpy_to_image
 def darken_only(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
+    """Darken only blend mode. Picks the darkest value for each pixel"""
     return np.min(arr1, arr2)
 
 
 @_numpy_to_image
 def lighten_only(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
+    """Lighten only blend mode. Picks the lightest value for each pixel"""
     return np.max(arr1, arr2)
