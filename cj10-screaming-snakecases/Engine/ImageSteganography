@@ -1,88 +1,86 @@
-from PIL import Image
+# This file contains the class ImageTools that should be able to take in any image (as a 2D pixel array)
+# and return another 2D pixel array according to what is called. Any other to be added in time should be able
+# to be added here easily.
+
+# However, if an Image object is more desired over a np array, it will need to be changd in the future.
+
+
 import numpy as np
-from time import sleep
+from PIL import Image, ImageEnhance, ImageFilter
 
-class ImageSteg:
-    def __init__(self, image: Image) -> None:
+# I have included some basic image manipulation tools here
+
+
+class ImageTools:
+    def __init__(self, image, toArray=True) -> None:
+        if toArray:
+            image = np.asarray(image)
+
         self.image = image
+        self.ROI = image.copy()
 
-    def encode_LSB(self, data: str, px: int, py: int) -> Image:  # Assume that no. of pixels in self.image is sufficient to encode data
-        # (px, py) = starting coordinate for LSB encoding
+    def set_ROI(self, x, y, w, h):
+        # Sets a Region Of Interest (ROI). This is useful for when we only want to zoom in on
+        # a portion of the image for displaying, etc. By default, ROI = entire image
 
-        pixels = np.asarray(self.image.convert("RGB"))
+        self.ROI = self.image[y: y + h, x: x + w]
 
-        h, w, _ = pixels.shape
-        length = '{0:08b}'.format(len(data))
-        data_bits = iter(length + ''.join(['{0:08b}'.format(ord(letter)) for letter in data]))
+    def zoom(self, scale, x, y, w, h):
+        new_w = int(w * scale)
+        new_h = int(h * scale)
 
-        encoded_image = pixels.copy()
-    
-        for y in range(py, h):
-            for x in range(px, w):
-                pixel = pixels[y, x]  # RGB Channels
+        resized = np.array(Image.fromarray(self.ROI).resize((new_w, new_h)))
 
-                for i in range(3):  
-                    try:
-                        bit = next(data_bits)
-                        pixel[i] = pixel[i] & 0xFE | int(bit)  # Max value = FF, pixel[i] & FE isolates last bit, (...) | int(bit) encodes the bit (1 or 0)
+        return resized
 
-                    except StopIteration:  # Message fully encoded!
-                        break
+    def contrast(self, factor):
+        # 0 < factor < 1: Decrease contrast
+        # factor = 1: No change
+        # factor > 1: Increase contrast
 
-                encoded_image[y, x] = pixel
+        temp = Image.fromarray(self.ROI)
 
-        self.image = Image.fromarray(encoded_image)
-        return
-    
+        enhancer = ImageEnhance.Contrast(temp)
+        contrasted_image = enhancer.enhance(factor)
 
-    def decode_LSB(self, px=0, py=0) -> str:
-        pixels = np.asarray(self.image.convert("RGB"))
+        contrasted_imArray = np.asarray(contrasted_image)
+        return contrasted_imArray
 
-        h, w, _ = pixels.shape
-        length = w * h - px * py # default length
-        data_bits = ''
-        data = ''
+    def brightness(self, brightness):
+        # 0 < brightness < 1: Decrease contrast
+        # brightness = 1: No change
+        # brightness > 1: Increase brightness
 
-        found_length = False  # Whether or not data length was counted already
-        t = 0  # Number of characters extracted
+        temp = Image.fromarray(self.ROI)
 
-        for y in range(py, h):
-            for x in range(px, w):
-                pixel = pixels[y, x]
+        enhancer = ImageEnhance.Brightness(temp)
+        brightened_image = enhancer.enhance(brightness)
 
-                for i in range(3): 
-                    data_bits += str(pixel[i] & 1)
+        brightened_imArray = np.asarray(brightened_image)
+        return brightened_imArray
 
-                while len(data_bits) >= 8:  # 8 bits per ASCII character
-                    current_byte = data_bits[:8]
-                    data_bits = data_bits[8:]
+    def sharpness(self, sharpness):
+        # 0 < sharpness < 1: Decrease sharpness
+        # sharpness = 1: No change
+        # sharpness > 1: Increase sharpness
 
-                    if not found_length:
-                        length = int(current_byte, 2)
-                        found_length = True
-                        break
-                    
-                    if t < length:  # Stop searching when the entire data is extracted
-                        data += chr(int(current_byte, 2))
-                        t += 1
-                    else:
-                        return data
+        temp = Image.fromarray(self.ROI)
 
-    def encode_DCT(self, data):
-        # Discrete Cosine Transform
-        # May be a little tricky since we can't use processing libraries
-        # IDK if this is even needed
+        enhancer = ImageEnhance.Sharpness(temp)
+        sharpened_image = enhancer.enhance(sharpness)
 
-        pass
+        sharpened_imArray = np.asarray(sharpened_image)
+        return sharpened_imArray
 
-    def decode_DCT(self):
-        return
-    
+    def gaussian_blur(self, radius):
+        temp = Image.fromarray(self.ROI)
+
+        blurred_image = temp.filter(ImageFilter.GaussianBlur(radius))
+        blurred_imArray = np.asarray(blurred_image)
+
+        return blurred_imArray
 
 
 if __name__ == "__main__":
-    img = Image.open(r'cj10-screaming-snakecases\Engine\testimage.png')
-    temp = ImageSteg(img)
-    temp.encode_LSB("There is an impostor among us!", px=100, py=100)
-    msg = temp.decode_LSB(px=100, py=100)
-    print(msg)
+    # Testing
+    img = ImageTools()

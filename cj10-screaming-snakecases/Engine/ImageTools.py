@@ -1,4 +1,3 @@
-
 # This file contains the class ImageTools that should be able to take in any image (as a 2D pixel array)
 # and return another 2D pixel array according to what is called. Any other to be added in time should be able
 # to be added here easily.
@@ -11,6 +10,7 @@ from PIL import Image, ImageEnhance, ImageFilter
 
 # I have included some basic image manipulation tools here
 
+
 class ImageTools:
     def __init__(self, image, toArray=True) -> None:
         if toArray:
@@ -20,20 +20,18 @@ class ImageTools:
         self.ROI = image.copy()
 
     def set_ROI(self, x, y, w, h):
-        # Sets a Region Of Interest (ROI). This is useful for when we only want to zoom in on 
+        # Sets a Region Of Interest (ROI). This is useful for when we only want to zoom in on
         # a portion of the image for displaying, etc. By default, ROI = entire image
 
-        self.ROI = self.image[y:y+h, x:x+w]
+        self.ROI = self.image[y: y + h, x: x + w]
 
-    
     def zoom(self, scale, x, y, w, h):
         new_w = int(w * scale)
         new_h = int(h * scale)
 
-        resized= np.array(Image.fromarray(self.ROI).resize((new_w, new_h)))
+        resized = np.array(Image.fromarray(self.ROI).resize((new_w, new_h)))
 
         return resized
-    
 
     def contrast(self, factor):
         # 0 < factor < 1: Decrease contrast
@@ -48,7 +46,6 @@ class ImageTools:
         contrasted_imArray = np.asarray(contrasted_image)
         return contrasted_imArray
 
-
     def brightness(self, brightness):
         # 0 < brightness < 1: Decrease contrast
         # brightness = 1: No change
@@ -61,7 +58,6 @@ class ImageTools:
 
         brightened_imArray = np.asarray(brightened_image)
         return brightened_imArray
-
 
     def sharpness(self, sharpness):
         # 0 < sharpness < 1: Decrease sharpness
@@ -76,7 +72,6 @@ class ImageTools:
         sharpened_imArray = np.asarray(sharpened_image)
         return sharpened_imArray
 
-
     def gaussian_blur(self, radius):
         temp = Image.fromarray(self.ROI)
 
@@ -86,10 +81,6 @@ class ImageTools:
         return blurred_imArray
 
 
-
-
-
 if __name__ == "__main__":
     # Testing
     img = ImageTools()
-                
