@@ -33,7 +33,7 @@ def _numpy_to_image(func) -> BlendMode:  # utility decorator for using numpy arr
 
 
 def default(image1: ImageType, image2: ImageType) -> ImageType:
-    """Default option (no blending). Simply pastes one image on the other."""
+    """Default option (no blending). Simply pastes one image on the other."""  # noqa: D401
     image1.paste(image2)
     return image1
 
@@ -63,11 +63,11 @@ def overlay(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
 
 @_numpy_to_image
 def darken_only(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
-    """Darken only blend mode. Picks the darkest value for each pixel"""
+    """Darken only blend mode. Picks the darkest value for each pixel."""
     return np.min(arr1, arr2)
 
 
 @_numpy_to_image
 def lighten_only(arr1: np.ndarray, arr2: np.ndarray) -> np.ndarray:
-    """Lighten only blend mode. Picks the lightest value for each pixel"""
+    """Lighten only blend mode. Picks the lightest value for each pixel."""
     return np.max(arr1, arr2)
