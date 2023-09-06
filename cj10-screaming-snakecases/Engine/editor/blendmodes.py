@@ -30,6 +30,9 @@ def _numpy_to_image(func) -> BlendMode:  # utility decorator for using numpy arr
     return wrapper
 
 
+# https://en.wikipedia.org/wiki/Blend_modes
+
+
 def default(image1: ImageType, image2: ImageType) -> ImageType:
     """Default option (no blending). Simply pastes one image on the other."""
     image1.paste(image2)
