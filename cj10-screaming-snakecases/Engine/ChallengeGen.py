@@ -1,3 +1,4 @@
+import logging
 import random
 import string
 import logging
@@ -6,12 +7,14 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
 
-from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
+import geopy.exc
 from geopy.geocoders import Nominatim
+from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 
 # Configure logging
 logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class ForensicChallengeGenerator:
     def __init__(self, image_path):
@@ -93,8 +96,7 @@ class ForensicChallengeGenerator:
 
     def hide_flag_in_image(self):
         if self.image:
-            self.form = True
-            flag = self.random_flag()
+            flag = self.random_flag(True)
 
             # Create a copy of the image
             image_with_flag = self.image.copy()
@@ -111,8 +113,7 @@ class ForensicChallengeGenerator:
 
     def hide_flag_in_metadata(self):
         if self.image:
-            self.form = False
-            flag = self.random_flag()
+            flag = self.random_flag(False)
             flag = str(flag)
 
             metadata = self.random_meta_gen()
@@ -211,8 +212,10 @@ class ForensicChallengeGenerator:
 
 # Example usage:
 if __name__ == '__main__':
-    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'  # Provide the path to your input image
+    # Path to input image
+    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
     logging.debug(f'Image path: {image_path}')
+
     generator = ForensicChallengeGenerator(image_path)
     generator.hide_flag_in_image()
     generator.hide_flag_in_metadata()

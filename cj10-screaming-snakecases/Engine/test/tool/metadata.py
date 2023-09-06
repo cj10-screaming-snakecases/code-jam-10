@@ -1,5 +1,6 @@
-from PIL import Image
 import logging
+
+from PIL import Image
 
 # Configure logging
 logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/image_metadata.log', level=logging.DEBUG,
@@ -28,4 +29,3 @@ metadata = image.info if image else {}
 for key, value in metadata.items():
     print(f"{key}: {value}")
     logging.debug(f"Metadata - {key}: {value}")
-
