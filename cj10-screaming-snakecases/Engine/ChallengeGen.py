@@ -23,20 +23,19 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    #static method's not needed, need an instance to generate flag anyway
-    def random_flag(self):
-        if self.form:
+    @staticmethod
+    def random_flag(form):
+        if form:
             length = 6
             choices = string.ascii_uppercase
         else:
             length = 13
             choices = string.ascii_letters + string.digits
-        return "SNAKE{" + "".join(random.choices(choices, k=length))+"}"
+        return "SNAKE" + "".join(random.choices(choices, k=length))
 
     def hide_flag_in_image(self):
         if self.image:
-            self.form = True
-            flag = self.random_flag()
+            flag = self.random_flag(True)
 
             # Create a copy of the image
             image_with_flag = self.image.copy()
@@ -53,8 +52,7 @@ class ForensicChallengeGenerator:
 
     def hide_flag_in_metadata(self):
         if self.image:
-            self.form = False
-            flag = self.random_flag()
+            flag = self.random_flag(False)
             flag = str(flag)
 
             png_metadata = PngImagePlugin.PngInfo()
@@ -65,7 +63,7 @@ class ForensicChallengeGenerator:
             logging.debug(f'Flag hidden in the image metadata: {flag}')
         else:
             logging.error("Image not found. Please check the image path.")
-    
+
     def hide_flag_in_geoloc(self):
         if not self.image:
             logging.error("Image not found. Please check the image path.")
@@ -96,10 +94,10 @@ class ForensicChallengeGenerator:
         png_metadata.add_text("Flag", flag)
         png_metadata.add_text("Latitude", str(latitude))
         png_metadata.add_text("Longitude", str(longitude))
-    
+
         # Save the image with the hidden flag and location information
         self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
-    
+
         logging.debug(f'Flag hidden in the image with geographical location: {flag}')
 
 
