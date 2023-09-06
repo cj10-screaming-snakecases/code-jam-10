@@ -67,41 +67,41 @@ class ForensicChallengeGenerator:
             logging.error("Image not found. Please check the image path.")
     
     def hide_flag_in_geoloc(self):
-        if self.image:
-            city = "Amsterdam"
-            
-            # Generate a random flag
-            flag = self.random_flag()
-            flag = str(flag)
-            
-            # Use geopy to get geographical location information (latitude and longitude)
-            if self.geolocator is None:
-                logging.error("Geolocation service not available.")
-                return
-            
-            try:
-                location = self.geolocator.geocode(city)
-                if location:
-                    latitude = location.latitude
-                    longitude = location.longitude
-                    logging.debug(f'Geographical Location - Latitude: {latitude}, Longitude: {longitude}')
+    if not self.image:
+        logging.error("Image not found. Please check the image path.")
+        return
 
-                    # Embed the location information into the image metadata
-                    png_metadata = PngImagePlugin.PngInfo()
-                    png_metadata.add_text("Flag", flag)
-                    png_metadata.add_text("Latitude", str(latitude))
-                    png_metadata.add_text("Longitude", str(longitude))
+    city = "Amsterdam"
+    flag = self.random_flag()
+    flag = str(flag)
 
-                    # Save the image with the hidden flag and location information
-                    self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
-
-                    logging.debug(f'Flag hidden in the image with geographical location: {flag}')
-                else:
-                    logging.error("Failed to obtain geographical location information.")
-            except geopy.exc.GeocoderTimedOut as e:
-                logging.error(f"Error obtaining geographical location information: {e}")
+    try:
+        location = self.geolocator.geocode(city)
+        if location:
+            latitude = location.latitude
+            longitude = location.longitude
+            logging.debug(f'Geographical Location - Latitude: {latitude}, Longitude: {longitude}')
         else:
-            logging.error("Image not found. Please check the image path.")
+            logging.error("Failed to obtain geographical location information.")
+            return
+    except geopy.exc.GeocoderTimedOut:
+        logging.error("Geocoding service timed out. Please try again later.")
+        return
+    except Exception as e:
+        logging.error(f"Error obtaining geographical location information: {e}")
+        return
+
+    # Embed the location information into the image metadata
+    png_metadata = PngImagePlugin.PngInfo()
+    png_metadata.add_text("Flag", flag)
+    png_metadata.add_text("Latitude", str(latitude))
+    png_metadata.add_text("Longitude", str(longitude))
+
+    # Save the image with the hidden flag and location information
+    self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
+
+    logging.debug(f'Flag hidden in the image with geographical location: {flag}')
+
 
 # Example usage:
 if __name__ == '__main__':
