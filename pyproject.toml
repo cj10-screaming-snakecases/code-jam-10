@@ -15,6 +15,8 @@ pyside6 = "^6.5.2"
 pillow = "^10.0.0"
 geopy = "^2.4.0"
 pygame = "^2.5.1"
+numpy = "^1.25.2"
+cryptography = "^41.0.3"
 
 [tool.poetry.dev-dependencies]
 # Base tools
