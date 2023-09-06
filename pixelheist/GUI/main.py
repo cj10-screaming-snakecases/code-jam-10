@@ -1,6 +1,41 @@
 """GUI for the game."""
 import sys
-from PySide6 import QtCore, QtWidgets, QtGui
+
+from PySide6 import QtCore, QtGui, QtWidgets
+
+
+class MagnifierWidget(QtWidgets.QWidget):
+    """Widget used to display Magnifier."""
+
+    def __init__(self, image):
+        """Initialize the Magnifier."""
+        super().__init__()
+        self.image = image
+        self.zoom = 2
+
+        self.view = QtWidgets.QGraphicsView()
+        self.scene = QtWidgets.QGraphicsScene()
+        self.view.setScene(self.scene)
+
+        self.layout = QtWidgets.QVBoxLayout()
+        self.layout.addWidget(self.view)
+        self.setLayout(self.layout)
+
+        self.display_magnified_image()
+
+    def display_magnified_image(self):
+        """Magnifies the image from scale 1 - 6."""
+        if self.image:
+            magnified = self.image.scaled(self.image.width() * self.zoom, self.image.height() * self.zoom)
+            pixmap = QtGui.QPixmap.fromImage(magnified)
+
+            self.scene.clear()
+            self.scene.addPixmap(pixmap)
+
+    def update_magnified_image(self):
+        """Update the image according to the slider."""
+        self.zoom = self.slider.value()
+        self.display_magnified_image()
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -96,10 +131,12 @@ class MainWindow(QtWidgets.QMainWindow):
             'pen.png',
             'picktool.png',
             'resize.png',
-            'zoom.png'
+            'move.png',
+            'search.png',
+            'brightness.png'
         ]
 
-        for i in range(6):
+        for i in range(8):
             button = QtWidgets.QPushButton()
             button.setStyleSheet(
                 'width:50px;'
@@ -111,7 +148,7 @@ class MainWindow(QtWidgets.QMainWindow):
             icon = QtGui.QIcon(f'icons/{icons[i]}')
             button.setIcon(icon)
             button.setIconSize(QtCore.QSize(15, 15))
-            grid_layout.addWidget(button, i//1, i % 1)
+            grid_layout.addWidget(button, i // 1, i % 1)
 
         widget = QtWidgets.QWidget()
         widget.setLayout(grid_layout)
