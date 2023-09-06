@@ -67,29 +67,29 @@ class ForensicChallengeGenerator:
             logging.error("Image not found. Please check the image path.")
     
     def hide_flag_in_geoloc(self):
-    if not self.image:
-        logging.error("Image not found. Please check the image path.")
-        return
-
-    city = "Amsterdam"
-    flag = self.random_flag()
-    flag = str(flag)
-
-    try:
-        location = self.geolocator.geocode(city)
-        if location:
-            latitude = location.latitude
-            longitude = location.longitude
-            logging.debug(f'Geographical Location - Latitude: {latitude}, Longitude: {longitude}')
-        else:
-            logging.error("Failed to obtain geographical location information.")
+        if not self.image:
+            logging.error("Image not found. Please check the image path.")
             return
-    except geopy.exc.GeocoderTimedOut:
-        logging.error("Geocoding service timed out. Please try again later.")
-        return
-    except Exception as e:
-        logging.error(f"Error obtaining geographical location information: {e}")
-        return
+    
+        city = "Amsterdam"
+        flag = self.random_flag()
+        flag = str(flag)
+    
+        try:
+            location = self.geolocator.geocode(city)
+            if location:
+                latitude = location.latitude
+                longitude = location.longitude
+                logging.debug(f'Geographical Location - Latitude: {latitude}, Longitude: {longitude}')
+            else:
+                logging.error("Failed to obtain geographical location information.")
+                return
+        except geopy.exc.GeocoderTimedOut:
+            logging.error("Geocoding service timed out. Please try again later.")
+            return
+        except Exception as e:
+            logging.error(f"Error obtaining geographical location information: {e}")
+            return
 
     # Embed the location information into the image metadata
     png_metadata = PngImagePlugin.PngInfo()
