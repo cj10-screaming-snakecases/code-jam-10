@@ -28,9 +28,8 @@ class ImageSteg:
                 for i in range(3):
                     try:
                         bit = next(data_bits)
-                        pixel[i] = pixel[i] & 0xFE | int(
-                            bit
-                        )  # Max value = FF, pixel[i] & FE isolates last bit, (...) | int(bit) encodes the bit (1 or 0)
+                        pixel[i] = pixel[i] & 0xFE | int(bit)  #
+                        # Max value = FF, pixel[i] & FE isolates last bit, (...) | int(bit) encodes the bit (1 or 0)
 
                     except StopIteration:  # Message fully encoded!
                         break
