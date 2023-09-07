@@ -1,15 +1,11 @@
 import logging
 import random
 import string
-import logging
-import numpy as np
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.backends import default_backend
 
 import geopy.exc
-from geopy.geocoders import Nominatim
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
+from geopy.geocoders import Nominatim
 
 # Configure logging
 logging.basicConfig(filename='pixelheist/Engine/test/logs/ChalGen.log', level=logging.DEBUG,

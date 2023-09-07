@@ -1,7 +1,7 @@
-import tensorflow as tf
-import numpy as np
-from PIL import Image
 import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+from PIL import Image
 
 # Load the image with added noise
 image_path = 'cj10-screaming-snakecases/Engine/test/img/flag_with_noise.png'
