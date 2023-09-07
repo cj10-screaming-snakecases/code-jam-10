@@ -48,10 +48,11 @@ class ForensicChallengeGenerator:
         }
         return metadata
 
-    def random_encryption_technique(self):
+    @staticmethod
+    def random_encryption_technique():
         encryption_techniques = [
-            #"AES",
-            #"RSA",
+            # "AES",
+            # "RSA",
             "Caesar Cipher",
             "Vigenère Cipher",
             "Substitution Cipher",
@@ -61,17 +62,20 @@ class ForensicChallengeGenerator:
         return random.choice(encryption_techniques)
 
     def encrypt_flag(self, flag, technique):
-        #if technique == "AES":
-        #    key = Fernet.generate_key()
-        #    f = Fernet(key)
-        #    encrypted_flag = f.encrypt(flag.encode()).decode()
-        #elif technique == "RSA":
-        #    private_key = serialization.load_pem_private_key(
-        #        Fernet.generate_key(),
-        #        password=None,
-        #        backend=default_backend()
-        #    )
-        #    encrypted_flag = private_key.sign(flag.encode(), padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH), hashes.SHA256())
+        # if technique == "AES":
+        #     key = Fernet.generate_key()
+        #     f = Fernet(key)
+        #     encrypted_flag = f.encrypt(flag.encode()).decode()
+        # elif technique == "RSA":
+        #     private_key = serialization.load_pem_private_key(
+        #         Fernet.generate_key(),
+        #         password=None,
+        #         backend=default_backend()
+        #     )
+        #     encrypted_flag = private_key.sign(flag.encode(), padding.PSS(
+        #         mgf=padding.MGF1(hashes.SHA256()),
+        #         salt_length=padding.PSS.MAX_LENGTH), hashes.SHA256(),
+        #     )
         if technique == "Caesar Cipher":
             shift = random.randint(1, 25)
             encrypted_flag = ''.join([chr((ord(char) + shift - 65) % 26 + 65) for char in flag])
@@ -79,7 +83,8 @@ class ForensicChallengeGenerator:
             key = ''.join(random.choice(string.ascii_uppercase) for _ in range(len(flag)))
             encrypted_flag = ''.join([chr(((ord(char) + ord(key[i])) % 26) + 65) for i, char in enumerate(flag)])
         elif technique == "Substitution Cipher":
-            substitution_key = dict(zip(string.ascii_letters, ''.join(random.sample(string.ascii_letters, len(string.ascii_letters)))))
+            key = ''.join(random.sample(string.ascii_letters, len(string.ascii_letters)))
+            substitution_key = dict(zip(string.ascii_letters, key))
             encrypted_flag = ''.join([substitution_key[char] if char.isalpha() else char for char in flag])
         elif technique == "Transposition Cipher":
             encrypted_flag = ''.join([flag[i::3] for i in range(3)])
@@ -173,7 +178,6 @@ class ForensicChallengeGenerator:
             flag = self.encrypt_flag(flag, encryption_technique)
             logging.debug(f'Flag double encrypted using {encryption_technique}')
 
-
         png_metadata = PngImagePlugin.PngInfo()
         png_metadata.add_text("Flag", flag)
         png_metadata.add_text("Latitude", str(latitude))
@@ -206,6 +210,7 @@ class ForensicChallengeGenerator:
             logging.debug(f'Flag hidden in the image with noise: {flag}')
         else:
             logging.error("Image not found. Please check the image path.")
+
 
 # Example usage:
 if __name__ == '__main__':

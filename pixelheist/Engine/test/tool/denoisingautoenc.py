@@ -10,6 +10,7 @@ noisy_image = np.array(Image.open(image_path))
 # Normalize pixel values to [0, 1]
 noisy_image = noisy_image / 255.0
 
+
 # Define the denoising autoencoder model
 def create_denoising_autoencoder():
     model = tf.keras.models.Sequential([
@@ -26,6 +27,7 @@ def create_denoising_autoencoder():
     ])
     model.compile(optimizer='adam', loss='mse')
     return model
+
 
 # Load the denoising autoencoder model
 autoencoder = create_denoising_autoencoder()
@@ -47,7 +49,7 @@ plt.axis('off')
 plt.show()
 
 # Extract the hidden flag (assuming you know its location)
-flag_region = denoised_image[250:250+13, 250:250+100]  # Adjust the region as needed
+flag_region = denoised_image[250:250 + 13, 250:250 + 100]  # Adjust the region as needed
 flag = flag_region.copy() * 255.0  # Rescale to [0, 255]
 flag = flag.astype(np.uint8)
 flag_image = Image.fromarray(flag)
