@@ -4,8 +4,8 @@ import string
 
 import geopy.exc
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 from geopy.geocoders import Nominatim
+from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 
 # Configure logging
 logging.basicConfig(filename='pixelheist/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
