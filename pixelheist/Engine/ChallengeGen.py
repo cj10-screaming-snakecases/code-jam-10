@@ -12,7 +12,7 @@ from geopy.geocoders import Nominatim
 from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 
 # Configure logging
-logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
+logging.basicConfig(filename='pixelheist/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -30,8 +30,9 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    def random_flag(self):
-        if self.form:
+    @staticmethod
+    def random_flag(form):
+        if form:
             length = 6
             choices = string.ascii_uppercase
         else:
@@ -105,7 +106,7 @@ class ForensicChallengeGenerator:
             font = ImageFont.truetype("arial.ttf", 8)  # Change the font and size as needed
             draw.text((350, 300), flag, font=font, fill="black")  # Adjust fill color as needed
 
-            image_with_flag.save('cj10-screaming-snakecases/Engine/test/img/flag_image_with_text.png')
+            image_with_flag.save('pixelheist/Engine/test/img/flag_image_with_text.png')
 
             logging.debug(f'Flag hidden in the image: {flag}')
         else:
@@ -134,7 +135,7 @@ class ForensicChallengeGenerator:
             png_metadata = PngImagePlugin.PngInfo()
             png_metadata.add_text("Flag", flag)
 
-            self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_metadata_image.png', pnginfo=png_metadata)
+            self.image.save('pixelheist/Engine/test/img/flag_metadata_image.png', pnginfo=png_metadata)
 
             logging.debug(f'Flag hidden in the image metadata: {flag}')
         else:
@@ -170,23 +171,23 @@ class ForensicChallengeGenerator:
             encryption_technique = self.random_encryption_technique()
             flag = self.encrypt_flag(flag, encryption_technique)
             logging.debug(f'Flag encrypted using {encryption_technique}')
-        
+
         if random.randint(1, 20) == 1:
             encryption_technique = self.random_encryption_technique()
             flag = self.encrypt_flag(flag, encryption_technique)
             logging.debug(f'Flag double encrypted using {encryption_technique}')
 
-        
+
         png_metadata = PngImagePlugin.PngInfo()
         png_metadata.add_text("Flag", flag)
         png_metadata.add_text("Latitude", str(latitude))
         png_metadata.add_text("Longitude", str(longitude))
 
-        
-        self.image.save('cj10-screaming-snakecases/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
+        # Save the image with the hidden flag and location information
+        self.image.save('pixelheist/Engine/test/img/flag_geoloc_image.png', pnginfo=png_metadata)
 
         logging.debug(f'Flag hidden in the image with geographical location: {flag}')
-    
+
     def hide_flag_in_noise(self, noise_level=0.15):
         if self.image:
             flag = self.random_flag()
@@ -213,7 +214,7 @@ class ForensicChallengeGenerator:
 # Example usage:
 if __name__ == '__main__':
     # Path to input image
-    image_path = 'cj10-screaming-snakecases/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
+    image_path = 'pixelheist/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
     logging.debug(f'Image path: {image_path}')
 
     generator = ForensicChallengeGenerator(image_path)

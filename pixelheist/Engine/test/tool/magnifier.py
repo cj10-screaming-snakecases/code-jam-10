@@ -4,7 +4,7 @@ import pygame
 from PIL import Image
 
 # Configure logging
-logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/magnifier.log', level=logging.DEBUG,
+logging.basicConfig(filename='pixelheist/Engine/test/logs/magnifier.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Initialize Pygame
@@ -12,7 +12,7 @@ pygame.init()
 logging.debug("Pygame initialized successfully.")
 
 # Load the image
-image_path = "cj10-screaming-snakecases/Engine/test/img/flag_image_with_text.png"  # Replace with your image path
+image_path = "pixelheist/Engine/test/img/flag_image_with_text.png"  # Replace with your image path
 try:
     image = Image.open(image_path)
     logging.debug(f"Loaded image from {image_path}")

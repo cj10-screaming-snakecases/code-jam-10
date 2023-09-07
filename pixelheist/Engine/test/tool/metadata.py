@@ -3,11 +3,11 @@ import logging
 from PIL import Image
 
 # Configure logging
-logging.basicConfig(filename='cj10-screaming-snakecases/Engine/test/logs/image_metadata.log', level=logging.DEBUG,
+logging.basicConfig(filename='pixelheist/Engine/test/logs/image_metadata.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Load the image
-image_path = 'cj10-screaming-snakecases/Engine/test/img/flag_metadata_image.png'  # Update with your image path
+image_path = 'pixelheist/Engine/test/img/flag_geoloc_image.png'  # Update with your image path
 
 try:
     image = Image.open(image_path)
