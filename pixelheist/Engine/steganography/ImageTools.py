@@ -69,17 +69,40 @@ class ImageTools:
         return sharpened_image
 
     def color_channel(self, channel: str) -> Image:
-        # channel = RGB(A)
-        colorID = 'RGBA'.index(channel)
-        
-        h, w, channels = self.image.shape
+        # channel = RGB
+        colorID = 'RGB'.index(channel)
+        color_channel = self.imArray[:, :, colorID] 
 
-        filtered_image = np.zeros((h, w, channels))
-        filtered_image[:, :, colorID] = self.imArray[:, :, colorID]
+        filtered_image = np.zeros_like(self.imArray)
+        filtered_image[:, :, 1] = color_channel 
 
         return Image.fromarray(filtered_image)
+
+    def difference(self, other_image: Image) -> np.ndarray:
+        other_imArray = np.asarray(other_image)
+
+        return self.imArray - other_imArray
 
 
 if __name__ == "__main__":
     # Testing
-    img = ImageTools()
+
+    # raw = Image.open(r"pixelheist\Engine\test\img\rainbow.png")
+    raw = Image.open(r"pixelheist\Engine\test\img\testimage.png")
+    
+    # TEST FOR ImageSteg.encode_LSB AND ImageTools.difference
+    # from ImageSteganography import ImageSteg
+    # enc = ImageSteg(raw)
+    # img = ImageTools(raw)
+    # enc.encode_LSB("There is an impostor among us!", px=100, py=100)
+
+    # diff = np.abs(img.difference(enc.image)) * 255
+
+    # diff = Image.fromarray(diff)
+    # diff.show()  # Expect to see some colored pixels near top left
+
+    img = ImageTools(raw)
+    green = img.color_channel('G')
+    green.show()
+    nogreen = Image.fromarray(img.difference(green))
+    nogreen.show()
