@@ -1,9 +1,8 @@
 """GUI for the game."""
 import sys
 from pathlib import Path
-
 from PySide6 import QtCore, QtGui, QtWidgets
-
+from pixelheist.Engine.steganography.ImageTools import ImageTools
 
 class MagnifierWidget(QtWidgets.QWidget):
     """Widget used to display Magnifier."""
@@ -13,6 +12,7 @@ class MagnifierWidget(QtWidgets.QWidget):
         super().__init__()
         self.image = image
         self.zoom = 2
+        self.slider = None
 
         self._view = QtWidgets.QGraphicsView()
         self.scene = QtWidgets.QGraphicsScene()
@@ -24,7 +24,7 @@ class MagnifierWidget(QtWidgets.QWidget):
 
         self.display_magnified_image()
 
-    def display_magnified_image(self):
+    def display_magnified_image(self) -> None:
         """Magnifies the image from scale 1 - 6."""
         if self.image:
             magnified = self.image.scaled(
@@ -36,9 +36,9 @@ class MagnifierWidget(QtWidgets.QWidget):
             self.scene.clear()
             self.scene.addPixmap(pixmap)
 
-    def update_magnified_image(self):
+    def update_magnified_image(self) -> None:
         """Update the image according to the slider."""
-        # self.zoom = self.slider.value()
+        self.zoom = self.slider.value()
         self.display_magnified_image()
 
 
@@ -142,12 +142,33 @@ class MainWindow(QtWidgets.QMainWindow):
             gui_dir / Path('icons/crop.png'),
             gui_dir / Path('icons/magicwand.png'),
             gui_dir / Path('icons/pen.png'),
-            gui_dir / Path('icons/picktool.png'),
-            gui_dir / Path('icons/resize.png'),
+            gui_dir / Path('icons/sharpness.png'),
+            gui_dir / Path('icons/zoom.png'),
             gui_dir / Path('icons/move.png'),
-            gui_dir / Path('icons/search.png'),
+            gui_dir / Path('icons/contrast.png'),
             gui_dir / Path('icons/brightness.png')
         ]
+
+        crop = self.crop
+        magicwand = self.magicwand
+        pen = self.pen
+        sharpness = self.sharpness
+        zoom = self.magnifier
+        move = self.move
+        contrast = self.contrast
+        brightness = self.brightness
+
+        button_actions = [
+            crop,
+            magicwand,
+            pen,
+            sharpness,
+            zoom,
+            move,
+            contrast,
+            brightness
+        ]
+
 
         vertical_layout = QtWidgets.QVBoxLayout()
         vertical_layout.setSpacing(10)
@@ -177,6 +198,7 @@ class MainWindow(QtWidgets.QMainWindow):
             )
             icon = QtGui.QIcon(str(icons[i]))
             button.setIcon(icon)
+            button.clicked.connect(button_actions[i])
             button.setIconSize(QtCore.QSize(15, 15))
             vertical_layout.addWidget(button)
 
@@ -195,6 +217,31 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar.addWidget(widget)
 
         self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, tool_bar)
+
+    def crop(self) -> None:
+        pass
+    def magicwand(self) -> None:
+        pass
+    def pen(self) -> None :
+        pass
+
+    def sharpness(self) -> None:
+        pass
+
+    def magnifier(self) -> None:
+        slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
+        slider.setRange(1, 6)
+        slider.setValue(1)
+        slider.valueChanged.connect(ImageTools.zoom(slider.value()))
+
+    def move(self) -> None:
+        pass
+
+    def contrast(self) -> None:
+        pass
+
+    def brightness(self) -> None:
+        pass
 
 
 def main() -> None:
