@@ -1,56 +1,70 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import tensorflow as tf
-from PIL import Image
-
-# Load the image with added noise
-image_path = 'cj10-screaming-snakecases/Engine/test/img/flag_with_noise.png'
-noisy_image = np.array(Image.open(image_path))
-
-# Normalize pixel values to [0, 1]
-noisy_image = noisy_image / 255.0
-
-
-# Define the denoising autoencoder model
-def create_denoising_autoencoder():
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Input(shape=(None, None, 3)),
-        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
-        tf.keras.layers.MaxPooling2D((2, 2), padding='same'),
-        tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
-        tf.keras.layers.MaxPooling2D((2, 2), padding='same'),
-        tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
-        tf.keras.layers.UpSampling2D((2, 2)),
-        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
-        tf.keras.layers.UpSampling2D((2, 2)),
-        tf.keras.layers.Conv2D(3, (3, 3), activation='sigmoid', padding='same')
-    ])
-    model.compile(optimizer='adam', loss='mse')
-    return model
-
-
-# Load the denoising autoencoder model
-autoencoder = create_denoising_autoencoder()
-autoencoder.load_weights('your_autoencoder_weights.h5')  # Replace with your model weights file
-
-# Perform denoising
-denoised_image = autoencoder.predict(np.expand_dims(noisy_image, axis=0))[0]
-
-# Visualize the denoised image
-plt.figure(figsize=(10, 5))
-plt.subplot(1, 2, 1)
-plt.title('Noisy Image')
-plt.imshow(noisy_image)
-plt.axis('off')
-plt.subplot(1, 2, 2)
-plt.title('Denoised Image')
-plt.imshow(denoised_image)
-plt.axis('off')
-plt.show()
-
-# Extract the hidden flag (assuming you know its location)
-flag_region = denoised_image[250:250 + 13, 250:250 + 100]  # Adjust the region as needed
-flag = flag_region.copy() * 255.0  # Rescale to [0, 255]
-flag = flag.astype(np.uint8)
-flag_image = Image.fromarray(flag)
-flag_image.save('decoded_flag.png')
+# # pip install git+https://github.com/martinResearch/PyIPOL.git
+# # pip install cython
+# # pip install imageio
+# # pip install matplotlib
+# # pip install argparse
+# # pip install opencv-python
+# # pip install wrapper
+# # pip install barcodenumber
+# import argparse
+# import numpy as np
+# from imageio import imread, imwrite
+# import matplotlib.pyplot as plt
+# import cv2
+# import wrapper
+#
+# # Import the denoising algorithm wrappers
+# import ipol.wrappers.Implementation_of_the_Non_Local_Bayes_Image_Denoising_Algorithm as nl_bayes_wrapper
+# import ipol.wrappers.DCT_Image_Denoising_a_Simple_and_Effective_Image_Denoising_Algorithm as dct_wrapper
+# import ipol.wrappers.Non_Local_Means_Denoising as nl_means_wrapper
+# import ipol.wrappers.Rudin_Osher_Fatemi_Total_Variation_Denoising_using_Split_Bregman as tv_denoise_wrapper
+#
+#
+# def apply_denoising_algorithm(image, algorithm, sigma):
+#     if algorithm == "NLBayes":
+#         return nl_bayes_wrapper.NL_Bayes(image, sigma=sigma)
+#     elif algorithm == "DCT":
+#         return dct_wrapper.DCTdenoising(image, sigma=sigma)
+#     elif algorithm == "NLMeans":
+#         return nl_means_wrapper.nlmeans(image, sigma)
+#     elif algorithm == "TVDenoise":
+#         return tv_denoise_wrapper.tvdenoise(image, model='gaussian', sigma=sigma)
+#     else:
+#         raise ValueError("Invalid denoising algorithm selected.")
+#
+#
+# def main():
+#     parser = argparse.ArgumentParser(description="Apply denoising algorithms to an input image.")
+#     parser.add_argument("input_image", type=str, help="Path to the input noisy image.")
+#     parser.add_argument("output_image", type=str, help="Path to save the denoised output image.")
+#     parser.add_argument("--algorithm", choices=["NLBayes", "DCT", "NLMeans", "TVDenoise"], required=True,
+#                         help="Select denoising algorithm.")
+#     parser.add_argument("--sigma", type=float, required=True,
+#                         help="Noise standard deviation for the selected algorithm.")
+#
+#     args = parser.parse_args()
+#
+#     noisy_image = imread(args.input_image)
+#
+#     denoised_image = apply_denoising_algorithm(noisy_image, args.algorithm, args.sigma)
+#
+#     imwrite(args.output_image, denoised_image)
+#
+#     # Display
+#     plt.subplot(1, 3, 1)
+#     plt.imshow(noisy_image, cmap='gray')
+#     plt.title("Noisy Image")
+#
+#     plt.subplot(1, 3, 2)
+#     plt.imshow(denoised_image, cmap='gray')
+#     plt.title("Denoised Image")
+#
+#     plt.subplot(1, 3, 3)
+#     plt.imshow(np.abs(denoised_image.astype(np.float) - noisy_image.astype(np.float)) / 5, cmap='gray')
+#     plt.title("Difference (scaled)")
+#
+#     plt.show()
+#
+#
+# if __name__ == '__main__':
+#     main()

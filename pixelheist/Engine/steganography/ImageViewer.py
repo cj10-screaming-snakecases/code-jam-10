@@ -4,8 +4,8 @@
 # This will have to be programmed in conjunction with the GUI soon.
 
 
-from PIL import Image
 import numpy as np
+from PIL import Image
 
 
 class ImageViewer():
