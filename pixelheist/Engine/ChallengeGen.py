@@ -35,7 +35,6 @@ class ForensicChallengeGenerator:
             choices = string.ascii_letters + string.digits
         return "SNAKE{" + "".join(random.choices(choices, k=length)) + "}"
 
-
     def random_meta_gen(self):
         metadata = {
             "Author": random.choice(["Alice", "Bob", "Charlie"]),
@@ -47,7 +46,6 @@ class ForensicChallengeGenerator:
             "ISO": random.randint(100, 6400),
         }
         return metadata
-
 
     def random_encryption_technique(self):
         encryption_techniques = [
@@ -188,7 +186,6 @@ class ForensicChallengeGenerator:
 
         logging.debug(f'Flag hidden in the image with geographical location: {flag}')
 
-
     def hide_flag_in_noise(self, noise_level=0.1):
         if self.image:
             flag = self.random_flag(True)
@@ -207,10 +204,8 @@ class ForensicChallengeGenerator:
             # Clip the pixel values to the valid range [0, 255]
             noisy_image = np.clip(noisy_image, 0, 255)
 
-            
             noisy_image = Image.fromarray(noisy_image)
 
-            
             font = ImageFont.truetype("arial.ttf", 8)  # Change the font and size as needed
             draw = ImageDraw.Draw(noisy_image)
             draw.text((300, 260), flag, font=font, fill="black")  # Adjust fill color as needed
