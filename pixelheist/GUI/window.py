@@ -1,5 +1,6 @@
 """GUI for the game."""
 import sys
+from pathlib import Path
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
@@ -13,20 +14,23 @@ class MagnifierWidget(QtWidgets.QWidget):
         self.image = image
         self.zoom = 2
 
-        self.view = QtWidgets.QGraphicsView()
+        self._view = QtWidgets.QGraphicsView()
         self.scene = QtWidgets.QGraphicsScene()
-        self.view.setScene(self.scene)
+        self._view.setScene(self.scene)
 
-        self.layout = QtWidgets.QVBoxLayout()
-        self.layout.addWidget(self.view)
-        self.setLayout(self.layout)
+        self._layout = QtWidgets.QVBoxLayout()
+        self._layout.addWidget(self._view)
+        self.setLayout(self._layout)
 
         self.display_magnified_image()
 
     def display_magnified_image(self):
         """Magnifies the image from scale 1 - 6."""
         if self.image:
-            magnified = self.image.scaled(self.image.width() * self.zoom, self.image.height() * self.zoom)
+            magnified = self.image.scaled(
+                self.image.width() * self.zoom,
+                self.image.height() * self.zoom
+            )
             pixmap = QtGui.QPixmap.fromImage(magnified)
 
             self.scene.clear()
@@ -34,7 +38,7 @@ class MagnifierWidget(QtWidgets.QWidget):
 
     def update_magnified_image(self):
         """Update the image according to the slider."""
-        self.zoom = self.slider.value()
+        # self.zoom = self.slider.value()
         self.display_magnified_image()
 
 
@@ -44,9 +48,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         """Initialize Main Window class."""
         super().__init__()
-        self.initialize_ui()
+        self.initUI()
 
-    def initialize_ui(self) -> None:
+    def initUI(self) -> None:
         """Initialize the main layout and window settings."""
         self.resize(1000, 670)
 
@@ -55,7 +59,7 @@ class MainWindow(QtWidgets.QMainWindow):
         qrect.moveCenter(center_point)
         self.move(qrect.topLeft())
 
-        self.setWindowTitle('The Screaming Snakecases')
+        self.setWindowTitle('Pixel Heist - CJ10 The Screaming Snakecases')
 
         self.titleBar()
         self.menuItems()
@@ -67,6 +71,9 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar = QtWidgets.QToolBar('Title Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedHeight(35)
+        tool_bar.setStyleSheet(
+            'border-bottom: 0.5px solid black;'
+        )
         self.title = QtWidgets.QLabel('Pixel Heist')
 
         self.title.setStyleSheet(
@@ -75,7 +82,8 @@ class MainWindow(QtWidgets.QMainWindow):
             'font-size: 15px;'
             'font-weight: 550;'
             'letter-spacing: 1.2px;'
-
+            'background: transparent;'
+            'border: none;'
         )
 
         left_padding = QtWidgets.QWidget()
@@ -88,6 +96,8 @@ class MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QSizePolicy.Policy.Expanding,
             QtWidgets.QSizePolicy.Policy.Preferred
         )
+        left_padding.setStyleSheet('border: none;')
+        right_padding.setStyleSheet('border: none;')
 
         tool_bar.addWidget(left_padding)
         tool_bar.addWidget(self.title)
@@ -123,36 +133,52 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar = QtWidgets.QToolBar('Tool Bar')
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(60)
+        tool_bar.setStyleSheet(
+            'border-right: 0.5px solid black;'
+        )
 
-        grid_layout = QtWidgets.QGridLayout()
+        gui_dir = Path(__file__).parent
         icons = [
-            'crop.png',
-            'magicwand.png',
-            'pen.png',
-            'picktool.png',
-            'resize.png',
-            'move.png',
-            'search.png',
-            'brightness.png'
+            gui_dir / Path('icons/crop.png'),
+            gui_dir / Path('icons/magicwand.png'),
+            gui_dir / Path('icons/pen.png'),
+            gui_dir / Path('icons/picktool.png'),
+            gui_dir / Path('icons/resize.png'),
+            gui_dir / Path('icons/move.png'),
+            gui_dir / Path('icons/search.png'),
+            gui_dir / Path('icons/brightness.png')
         ]
+
+        vertical_layout = QtWidgets.QVBoxLayout()
+        vertical_layout.setSpacing(10)
+        widget = QtWidgets.QWidget()
+        widget.setStyleSheet(
+            'border: none;'
+        )
+        widget.setLayout(vertical_layout)
+        tool_bar.addWidget(widget)
 
         for i in range(8):
             button = QtWidgets.QPushButton()
             button.setStyleSheet(
-                'width:50px;'
-                'height:40px;'
-                'margin:-3px -25px ;'
-                'background-color:lightgrey;'
-                'padding-left:-2px;'
+                """
+                QPushButton {
+                    width: 50px;
+                    height: 37px;
+                    background: #e0e0e0;
+                    border: 1.5px solid black;
+                    border-radius: 8px;
+                    margin-left: 1px;
+                }
+                QPushButton:hover {
+                    background: #ebebeb;
+                }
+                """
             )
-            icon = QtGui.QIcon(f'icons/{icons[i]}')
+            icon = QtGui.QIcon(str(icons[i]))
             button.setIcon(icon)
             button.setIconSize(QtCore.QSize(15, 15))
-            grid_layout.addWidget(button, i // 1, i % 1)
-
-        widget = QtWidgets.QWidget()
-        widget.setLayout(grid_layout)
-        tool_bar.addWidget(widget)
+            vertical_layout.addWidget(button)
 
         self.addToolBar(QtCore.Qt.ToolBarArea.LeftToolBarArea, tool_bar)
 
@@ -160,7 +186,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """Create the configuration bar."""
         tool_bar = QtWidgets.QToolBar('Configuration Bar')
         tool_bar.setStyleSheet(
-            'background:lightgrey;'
+            'border-left: 0.5px solid black;'
         )
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(200)
