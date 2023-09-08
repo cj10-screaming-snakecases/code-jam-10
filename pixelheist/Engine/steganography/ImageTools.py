@@ -71,7 +71,7 @@ class ImageTools:
     def color_channel(self, channel: str) -> Image:
         # channel = RGB(A)
         colorID = 'RGBA'.index(channel)
-        
+
         h, w, channels = self.image.shape
 
         filtered_image = np.zeros((h, w, channels))
