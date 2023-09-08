@@ -193,24 +193,24 @@ class ForensicChallengeGenerator:
         if self.image:
             flag = self.random_flag(True)
 
-            # Convert the image to a NumPy array
+            # Convert img to NumPy array
             img_array = np.array(self.image)
 
-            # Calculate Gaussian noise with the specified noise level
+            # Gaussian noise with the specified noise level
             mean = 0
             std_dev = noise_level * 255
             noise = np.random.normal(mean, std_dev, img_array.shape).astype(np.uint8)
 
-            # Add the noise to the image
+            # Add noise to the image
             noisy_image = img_array + noise
 
             # Clip the pixel values to the valid range [0, 255]
             noisy_image = np.clip(noisy_image, 0, 255)
 
-            # Convert the NumPy array back to an image
+            
             noisy_image = Image.fromarray(noisy_image)
 
-            # Add the flag to the noisy image
+            
             font = ImageFont.truetype("arial.ttf", 8)  # Change the font and size as needed
             draw = ImageDraw.Draw(noisy_image)
             draw.text((300, 260), flag, font=font, fill="black")  # Adjust fill color as needed
