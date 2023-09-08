@@ -16,6 +16,7 @@ Pillow = "^10.0.0"
 geopy = "^2.4.0"
 numpy = "^1.25.2"
 cryptography = "^41.0.3"
+scipy = "^1.11.2"
 
 [tool.poetry.dev-dependencies]
 # Base tools

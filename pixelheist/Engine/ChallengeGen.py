@@ -26,8 +26,7 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    @staticmethod
-    def random_flag(form):
+    def random_flag(self, form):
         if form:
             length = 6
             choices = string.ascii_uppercase
@@ -35,6 +34,7 @@ class ForensicChallengeGenerator:
             length = 13
             choices = string.ascii_letters + string.digits
         return "SNAKE{" + "".join(random.choices(choices, k=length)) + "}"
+
 
     def random_meta_gen(self):
         metadata = {
@@ -48,8 +48,8 @@ class ForensicChallengeGenerator:
         }
         return metadata
 
-    @staticmethod
-    def random_encryption_technique():
+
+    def random_encryption_technique(self):
         encryption_techniques = [
             # "AES",
             # "RSA",
@@ -148,7 +148,7 @@ class ForensicChallengeGenerator:
             return
 
         city = "Amsterdam"
-        flag = self.random_flag()
+        flag = self.random_flag(False)
         flag = str(flag)
 
         try:
@@ -188,26 +188,36 @@ class ForensicChallengeGenerator:
 
         logging.debug(f'Flag hidden in the image with geographical location: {flag}')
 
-    def hide_flag_in_noise(self, noise_level=0.15):
-        if self.image:
-            flag = self.random_flag()
 
-            # Add Gaussian noise to the image
-            width, height = self.image.size
-            noise = np.random.normal(0, noise_level * 255, (height, width, 3))
-            noisy_image = np.array(self.image) + noise
+    def hide_flag_in_noise(self, noise_level=0.1):
+        if self.image:
+            flag = self.random_flag(True)
+
+            # Convert the image to a NumPy array
+            img_array = np.array(self.image)
+
+            # Calculate Gaussian noise with the specified noise level
+            mean = 0
+            std_dev = noise_level * 255
+            noise = np.random.normal(mean, std_dev, img_array.shape).astype(np.uint8)
+
+            # Add the noise to the image
+            noisy_image = img_array + noise
+
+            # Clip the pixel values to the valid range [0, 255]
             noisy_image = np.clip(noisy_image, 0, 255)
-            noisy_image = Image.fromarray(np.uint8(noisy_image))
+
+            # Convert the NumPy array back to an image
+            noisy_image = Image.fromarray(noisy_image)
 
             # Add the flag to the noisy image
-            self.form = True
             font = ImageFont.truetype("arial.ttf", 8)  # Change the font and size as needed
             draw = ImageDraw.Draw(noisy_image)
-            draw.text((250, 250), flag, font=font, fill="black")  # Adjust fill color as needed
+            draw.text((300, 260), flag, font=font, fill="black")  # Adjust fill color as needed
 
-            noisy_image.save('cj10-screaming-snakecases/Engine/test/img/flag_with_noise.png')
+            noisy_image.save('pixelheist/Engine/test/img/flag_with_gaussian_noise.png')
 
-            logging.debug(f'Flag hidden in the image with noise: {flag}')
+            logging.debug(f'Flag hidden in the image with Gaussian noise: {flag}')
         else:
             logging.error("Image not found. Please check the image path.")
 
