@@ -8,11 +8,13 @@
 import numpy as np
 from PIL import Image, ImageEnhance
 
+ImageType = Image.Image
+
 # I have included some basic image manipulation tools here
 
 
 class ImageTools:
-    def __init__(self, image: Image) -> None:
+    def __init__(self, image: ImageType) -> None:
         self.image = image
         self.imArray = np.asarray(image)
         self.ROI = self.imArray.copy()
@@ -23,7 +25,7 @@ class ImageTools:
 
         self.ROI = self.imArray[y: y + h, x: x + w]
 
-    def zoom(self, scale: float) -> Image:
+    def zoom(self, scale: float) -> ImageType:
         h, w, _ = self.imArray.shape
         new_w = int(w * scale)
         new_h = int(h * scale)
@@ -32,7 +34,7 @@ class ImageTools:
 
         return resized
 
-    def contrast(self, factor: float) -> Image:
+    def contrast(self, factor: float) -> ImageType:
         # 0 < factor < 1: Decrease contrast
         # factor = 1: No change
         # factor > 1: Increase contrast
@@ -44,7 +46,7 @@ class ImageTools:
 
         return contrasted_image
 
-    def brightness(self, brightness: float) -> Image:
+    def brightness(self, brightness: float) -> ImageType:
         # 0 < brightness < 1: Decrease contrast
         # brightness = 1: No change
         # brightness > 1: Increase brightness
@@ -56,7 +58,7 @@ class ImageTools:
 
         return brightened_image
 
-    def sharpness(self, sharpness: float) -> Image:
+    def sharpness(self, sharpness: float) -> ImageType:
         # 0 < sharpness < 1: Decrease sharpness
         # sharpness = 1: No change
         # sharpness > 1: Increase sharpness
@@ -68,7 +70,7 @@ class ImageTools:
 
         return sharpened_image
 
-    def color_channel(self, channel: str) -> Image:
+    def color_channel(self, channel: str) -> ImageType:
         # channel = RGB(A)
         colorID = 'RGBA'.index(channel)
 
