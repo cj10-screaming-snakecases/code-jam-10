@@ -215,6 +215,40 @@ class ForensicChallengeGenerator:
             logging.debug(f'Flag hidden in the image with Gaussian noise: {flag}')
         else:
             logging.error("Image not found. Please check the image path.")
+    
+    def hide_flag_in_colorshift(self):
+        constant_value = random.randint(100, 255)
+        if self.image:
+            #copy
+            image_with_flag = self.image.copy()
+            draw = ImageDraw.Draw(image_with_flag)
+
+            width, height = image_with_flag.size
+            pixels = image_with_flag.load()
+
+            # Add flag before encrypting (messed this up a few times lmfao)
+            flag = self.random_flag(True)
+            font = ImageFont.truetype("arial.ttf", 20)  # Change the font and size as needed
+            flag_x = width // 2
+            flag_y = height // 2
+            draw.text((flag_x, flag_y), flag, font=font, fill="black")  # Adjust fill color as needed
+
+            step = 0  # randomnessval
+            for x in range(width):
+                for y in range(height):
+                    r, g, b = pixels[x, y]
+                    r = (r + constant_value + step) % 256
+                    g = (g + constant_value + step) % 256
+                    b = (b + constant_value + step) % 256
+                    pixels[x, y] = (r, g, b)
+                    step += 1  # Increment step for each pixel
+
+            image_with_flag.save('pixelheist/Engine/test/img/flag_color_shift.png')
+
+            logging.debug(f'Color shifting challenge applied with constant value {constant_value}. Flag hidden in the image.')
+        else:
+            logging.error("Image not found. Please check the image path.")
+
 
 
 # Example usage:
@@ -228,3 +262,4 @@ if __name__ == '__main__':
     generator.hide_flag_in_metadata()
     generator.hide_flag_in_geoloc()
     generator.hide_flag_in_noise()
+    generator.hide_flag_in_colorshift()
