@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 from PySide6 import QtCore, QtGui, QtWidgets
-from pixelheist.Engine.steganography.ImageTools import ImageTools
+from ..Engine.steganography.ImageTools import ImageTools
 
 class MagnifierWidget(QtWidgets.QWidget):
     """Widget used to display Magnifier."""
@@ -213,11 +213,32 @@ class MainWindow(QtWidgets.QMainWindow):
         tool_bar.setMovable(False)
         tool_bar.setFixedWidth(200)
 
-        widget = QtWidgets.QWidget()
-        tool_bar.addWidget(widget)
+        config_widget = QtWidgets.QWidget()
+        config_layout = QtWidgets.QVBoxLayout()
+        config_widget.setLayout(config_layout)
+        
+        tool_bar.addWidget(config_widget)
 
         self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, tool_bar)
 
+        # Store references to sliders in a dictionary
+        self.slider_dict = {
+            'Sharpness': self.create_slider(0, 1, self.sharpness),
+            'Magnifier': self.create_slider(1, 6, self.magnifier),
+            'Contrast': self.create_slider(0, 1, self.contrast),
+            'Brightness': self.create_slider(0, 1, self.brightness)
+        }
+
+        self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, tool_bar)
+
+    def create_slider(self, min_val:int, max_val:int, func) -> QtWidgets.QSlider:
+        slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
+        slider.setRange(min_val, max_val)
+        slider.setValue(0)
+        slider.valueChanged.connect(func)
+        return slider
+    
+    
     def crop(self) -> None:
         pass
     def magicwand(self) -> None:
@@ -226,7 +247,11 @@ class MainWindow(QtWidgets.QMainWindow):
         pass
 
     def sharpness(self) -> None:
-        pass
+        slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
+        slider.setRange(0, 100)
+        slider.setValue(0)
+        slider.valueChanged.connect(ImageTools.sharpness(slider.value()))
+        
 
     def magnifier(self) -> None:
         slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
@@ -238,10 +263,16 @@ class MainWindow(QtWidgets.QMainWindow):
         pass
 
     def contrast(self) -> None:
-        pass
+        slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
+        slider.setRange(0, 1)
+        slider.setValue(0)
+        slider.valueChanged.connect(ImageTools.contrast(slider.value()))
 
     def brightness(self) -> None:
-        pass
+        slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
+        slider.setRange(0, 100)
+        slider.setValue(0)
+        slider.valueChanged.connect(ImageTools.brightness(slider.value()))
 
 
 def main() -> None:
