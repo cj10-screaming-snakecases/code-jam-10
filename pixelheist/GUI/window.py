@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageQt
+from PIL import Image
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from pixelheist.Engine import Editor

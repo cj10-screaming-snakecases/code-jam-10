@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image, ImageQt
 
 from pixelheist.Engine import blendmodes
-from pixelheist.Engine.tools import ImageTool
+from pixelheist.Engine.tools import brightness, contrast, sharpness
 
 ImageType = Image.Image
 
@@ -20,12 +20,48 @@ class EditorLayer:
     blend_mode: blendmodes.BlendMode = blendmodes.none
     locked: bool = False
     modified: bool = False
+    _contrast: int = 0
+    _brightness: int = 0
+    _sharpness: int = 0
 
-    def apply(self, func: ImageTool, *args, **kwargs) -> None:
-        if self.locked:
-            raise LayerIsLocked
-        self.image = func(self.image, *args, **kwargs)
+    @property
+    def contrast(self):
+        return self._contrast
+
+    @contrast.setter
+    def contrast(self, value):
+        self._contrast = value
         self.modified = True
+
+    @property
+    def brightness(self):
+        return self._brightness
+
+    @brightness.setter
+    def brightness(self, value):
+        self._brightness = value
+        self.modified = True
+
+    @property
+    def sharpness(self):
+        return self._sharpness
+
+    @sharpness.setter
+    def sharpness(self, value):
+        self._sharpness = value
+        self.modified = True
+
+    def render(self):
+        out_img = self.image
+        for tool, amount in [
+            (brightness, self._brightness),
+            (contrast, self._contrast),
+            (sharpness, self._sharpness),
+        ]:
+            if amount == 0:
+                continue
+            out_img = tool(out_img, amount)
+        return out_img
 
 
 class LayerStack:
@@ -41,7 +77,7 @@ class LayerStack:
 
         image_array = np.zeros([800, 800, 4], dtype=np.uint8)
         for layer in self.layers:
-            layer_image = np.asarray(layer.image)
+            layer_image = np.asarray(layer.render())
             image_array = layer.blend_mode(image_array, layer_image)  # type: ignore
 
         image = ImageQt.ImageQt(Image.fromarray(image_array))
