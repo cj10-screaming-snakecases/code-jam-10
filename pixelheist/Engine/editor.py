@@ -27,3 +27,8 @@ class Editor:
     @classmethod
     def from_image(cls, image: Image.Image):
         return cls(LayerStack([EditorLayer(image)], image.size), 0)
+
+    @classmethod
+    def from_list(cls, data: list[dict]):
+        layers = LayerStack([EditorLayer.from_dict(d) for d in data])
+        return cls(layers)

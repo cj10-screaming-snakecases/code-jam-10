@@ -63,11 +63,21 @@ class EditorLayer:
             out_img = tool(out_img, amount)
         return out_img
 
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            Image.open(data['filepath']),
+            getattr(blendmodes, data['blend_mode']),
+            data['locked']
+        )
+
 
 class LayerStack:
-    def __init__(self, layers: Iterable[EditorLayer], size: tuple[int, int]):
-        self.size = size
+    def __init__(self, layers: Iterable[EditorLayer], size: tuple[int, int] | None = None):
         self.layers = list(layers)
+        if size is None:
+            size = self.layers[0].image.size
+        self.size = size
         self._cached_output: ImageQt.ImageQt | None = None
 
     def render_output(self) -> ImageQt.ImageQt:
@@ -81,6 +91,6 @@ class LayerStack:
             layer_image = np.asarray(layer.render())
             image_array = layer.blend_mode(image_array, layer_image)  # type: ignore
 
-        image = ImageQt.ImageQt(Image.fromarray(image_array))
+        image = ImageQt.ImageQt(Image.fromarray(image_array).resize(767, 604))
         self._cached_output = image
         return image
