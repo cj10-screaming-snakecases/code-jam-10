@@ -270,7 +270,7 @@ class ForensicChallengeGenerator:
 
             # Level 4: Add flag to noise and color shift
             if level >= 4:
-                flag = self.hide_flag_in_noise(prev_challenge_solution)
+                flag = self.hide_flag_in_noise()
                 flag = self.hide_flag_in_colorshift(flag)
                 level_challenges.append(f'Flag added to the image with Gaussian noise and color shift: {flag}')
 

@@ -215,11 +215,11 @@ class ForensicChallengeGenerator:
             logging.debug(f'Flag hidden in the image with Gaussian noise: {flag}')
         else:
             logging.error("Image not found. Please check the image path.")
-    
+
     def hide_flag_in_colorshift(self):
         constant_value = random.randint(100, 255)
         if self.image:
-            #copy
+            # copy
             image_with_flag = self.image.copy()
             draw = ImageDraw.Draw(image_with_flag)
 
@@ -245,11 +245,11 @@ class ForensicChallengeGenerator:
 
             image_with_flag.save('pixelheist/Engine/test/img/flag_color_shift.png')
 
-            logging.debug(f'Color shifting challenge applied with constant value {constant_value}. Flag hidden in the image.')
+            logging.debug(f'Color shift applied with constant {constant_value}')
         else:
             logging.error("Image not found. Please check the image path.")
         return constant_value
-            
+
     def generate_levels(self, num_levels=5):
         levels = []
         image_path = 'pixelheist/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
@@ -290,7 +290,7 @@ class ForensicChallengeGenerator:
                 flag = self.encrypt_flag(prev_challenge_solution, self.random_encryption_technique())
                 self.hide_flag_in_noise()
                 const = self.hide_flag_in_colorshift()
-                level_challenges.append(f'Flag added to the image with Gaussian noise and color shift (Level: {const}): {flag}')
+                level_challenges.append(f'Applied Gaussian noise (Level: {const}): {flag}')
                 prev_challenge_solution = flag
 
             # Level 5: Add more encryption
@@ -304,7 +304,6 @@ class ForensicChallengeGenerator:
         return levels
 
 
-
 # Example usage:
 if __name__ == '__main__':
     # Path to input image
@@ -312,7 +311,7 @@ if __name__ == '__main__':
     logging.debug(f'Image path: {image_path}')
 
     generator = ForensicChallengeGenerator(image_path)
-     # Generate 5 levels of difficulty
+    # Generate 5 levels of difficulty
     levels = generator.generate_levels(num_levels=5)
 
     # Log the challenges and solutions
@@ -328,8 +327,8 @@ if __name__ == '__main__':
         for challenge in level_challenges:
             print(f'- {challenge}')
         print()
-    #generator.hide_flag_in_image()
-    #generator.hide_flag_in_metadata()
-    #generator.hide_flag_in_geoloc()
-    #generator.hide_flag_in_noise()
-    #generator.hide_flag_in_colorshift()
+    # generator.hide_flag_in_image()
+    # generator.hide_flag_in_metadata()
+    # generator.hide_flag_in_geoloc()
+    # generator.hide_flag_in_noise()
+    # generator.hide_flag_in_colorshift()
