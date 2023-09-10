@@ -1,5 +1,5 @@
-from pixelheist.Engine.editor.layers import EditorLayer, LayerStack
-from pixelheist.Engine.editor.tools import ImageTool
+from pixelheist.Engine.layers import EditorLayer, LayerStack
+from pixelheist.Engine.tools import ImageTool
 
 
 class Editor:
