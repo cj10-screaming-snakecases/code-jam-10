@@ -2,9 +2,10 @@
 import sys
 from pathlib import Path
 
+from PIL import ImageQt, Image
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from ..Engine.editor.ImageTools import ImageTools
+# from ..Engine.editor.ImageTools import ImageTools
 
 # class MagnifierWidget(QtWidgets.QWidget):
 #     """Widget used to display Magnifier."""
@@ -50,7 +51,11 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         """Initialize Main Window class."""
         super().__init__()
-        self.img = ImageTools(...)
+        self.img = ImageQt.ImageQt(
+            Image.open(
+                r'E:\co\code-jam-10\pixelheist\Engine\test\img\testimage.png'
+            )
+        )
 
         self.initUI()
 
@@ -67,6 +72,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.titleBar()
         self.editToolBar()
+        self.imagePreview()
+
+    def imagePreview(self) -> None:
+        label = QtWidgets.QLabel()
+        label.setPixmap(QtGui.QPixmap.fromImage(self.img))
+        self.setCentralWidget(label)
 
     def titleBar(self) -> None:
         """Create the title bar."""
@@ -233,9 +244,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
             slider.valueChanged.connect(sliderFunc(func, text_value, slider))
 
-        createSlider('Contrast', self.img.zoom)
-        createSlider('Brightness', self.img.zoom)
-        createSlider('Sharpness', self.img.zoom)
+        # createSlider('Contrast', self.img.zoom)
+        # createSlider('Brightness', self.img.zoom)
+        # createSlider('Sharpness', self.img.zoom)
 
     def hand(self) -> None:
         pass
