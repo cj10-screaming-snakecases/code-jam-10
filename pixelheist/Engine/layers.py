@@ -4,8 +4,8 @@ from typing import Iterable
 import numpy as np
 from PIL import Image, ImageQt
 
-from pixelheist.Engine.editor import blendmodes
-from pixelheist.Engine.editor.tools import ImageTool
+from pixelheist.Engine import blendmodes
+from pixelheist.Engine.tools import ImageTool
 
 ImageType = Image.Image
 
