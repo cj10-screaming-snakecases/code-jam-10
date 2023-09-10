@@ -91,6 +91,6 @@ class LayerStack:
             layer_image = np.asarray(layer.render())
             image_array = layer.blend_mode(image_array, layer_image)  # type: ignore
 
-        image = ImageQt.ImageQt(Image.fromarray(image_array))
+        image = ImageQt.ImageQt(Image.fromarray(image_array).resize(767, 604))
         self._cached_output = image
         return image
