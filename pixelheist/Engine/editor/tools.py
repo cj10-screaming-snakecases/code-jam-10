@@ -13,6 +13,46 @@ ImageType = Image.Image
 ImageTool = Callable[[ImageType, ...], ImageType]
 
 
+def tool_from_enhancer(enhancer) -> ImageTool:
+    def wrapper(image: ImageType, amount: int) -> ImageType:
+        # Amount is -100 ~ 100, scale to match 0 ~ 2
+        factor = (amount / 100) + 1
+        e = enhancer(image)
+        return e.enhance(factor)
+
+    return wrapper
+
+
+contrast = tool_from_enhancer(ImageEnhance.Contrast)
+
+brightness = tool_from_enhancer(ImageEnhance.Brightness)
+
+sharpness = tool_from_enhancer(ImageEnhance.Sharpness)
+
+
+def zoom(image: ImageType, scale: float) -> ImageType:
+    w, h = image.size
+    new_w = int(w * scale)
+    new_h = int(h * scale)
+
+    resized = Image.fromarray(image.resize((new_w, new_h)))
+
+    return resized
+
+
+def color_channel(image: ImageType, channel: str) -> ImageType:
+    # channel = RGB(A)
+    color_id = 'RGBA'.index(channel)
+
+    im_arr = np.asarray(image)
+    h, w, channels = im_arr.shape
+
+    filtered_image = np.zeros((h, w, channels))
+    filtered_image[:, :, color_id] = im_arr[:, :, color_id]
+
+    return Image.fromarray(filtered_image)
+
+
 class ImageTools:
     def __init__(self, image: ImageType) -> None:
         self.image = image
