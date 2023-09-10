@@ -8,7 +8,6 @@ from typing import Callable
 import numpy as np
 from PIL import Image, ImageEnhance
 
-
 ImageType = Image.Image
 
 ImageTool = Callable[[ImageType, ...], ImageType]

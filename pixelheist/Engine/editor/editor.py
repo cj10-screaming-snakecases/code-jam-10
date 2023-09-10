@@ -1,4 +1,4 @@
-from pixelheist.Engine.editor.layers import LayerStack, EditorLayer
+from pixelheist.Engine.editor.layers import EditorLayer, LayerStack
 from pixelheist.Engine.editor.tools import ImageTool
 
 
