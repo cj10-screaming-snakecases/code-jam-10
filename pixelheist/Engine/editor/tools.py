@@ -14,7 +14,9 @@ ImageTool = Callable[[ImageType, ...], ImageType]
 
 
 def tool_from_enhancer(enhancer) -> ImageTool:
-    def wrapper(image: ImageType, factor: float) -> ImageType:
+    def wrapper(image: ImageType, amount: int) -> ImageType:
+        # Amount is -100 ~ 100, scale to match 0 ~ 2
+        factor = (amount / 100) + 1
         e = enhancer(image)
         return e.enhance(factor)
 
