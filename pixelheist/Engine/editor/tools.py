@@ -1,16 +1,17 @@
 # This file contains the class ImageTools that should be able to take in any image (as a 2D pixel array)
 # and return another 2D pixel array according to what is called. Any other to be added in time should be able
 # to be added here easily.
-
 # However, if an Image object is more desired over a np array, it will need to be changd in the future.
 
+from typing import Callable
 
 import numpy as np
 from PIL import Image, ImageEnhance
 
+
 ImageType = Image.Image
 
-# I have included some basic image manipulation tools here
+ImageTool = Callable[[ImageType, ...], ImageType]
 
 
 class ImageTools:
