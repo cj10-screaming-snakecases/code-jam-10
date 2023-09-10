@@ -8,7 +8,7 @@ import numpy as np
 from PIL import Image
 
 
-class ImageViewer():
+class ImageViewer:
     def __init__(self, image: Image) -> None:
         self.image = image
         self.imArray = np.asarray(image)

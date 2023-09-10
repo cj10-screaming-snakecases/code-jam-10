@@ -80,8 +80,3 @@ class ImageTools:
         filtered_image[:, :, colorID] = self.imArray[:, :, colorID]
 
         return Image.fromarray(filtered_image)
-
-
-if __name__ == "__main__":
-    # Testing
-    img = ImageTools()
