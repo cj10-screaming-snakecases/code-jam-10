@@ -1,5 +1,6 @@
 """GUI for the game."""
 import sys
+import webbrowser
 from pathlib import Path
 
 from PIL import Image
@@ -14,11 +15,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         """Initialize Main Window class."""
         super().__init__()
+
         self.editor_engine = Editor.from_image(
             Image.open("pixelheist/Engine/test/img/portrait.png")
         )
 
-        self.bar = ''
+        self.conf_bar = False
+
+        self.gui_dir = Path(__file__).parent
 
         self.initUI()
 
@@ -43,9 +47,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.editor_engine.render_output()
         )
         self.img_label.setPixmap(pixmap)
-
         widget = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout()
+        widget.setStyleSheet('border: 2px solid black')
         layout.addWidget(self.img_label)
         widget.setLayout(layout)
         self.setCentralWidget(widget)
@@ -96,12 +100,21 @@ class MainWindow(QtWidgets.QMainWindow):
             'border-right: 0.5px solid black;'
         )
 
-        gui_dir = Path(__file__).parent
         button_assests = [
             (
-                gui_dir / 'icons/properties.png',
+                self.gui_dir / 'icons/properties.png',
                 self.configurationBar,
                 'conf_bar'
+            ),
+            (
+                self.gui_dir / 'icons/help.png',
+                self.help,
+                'help'
+            ),
+            (
+                self.gui_dir / 'icons/github.png',
+                self.github,
+                'github'
             )
         ]
 
@@ -116,13 +129,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         def buttonFunc(func, name):
             def switcher():
+                if name in ('github', 'help'):
+                    func()
                 if name == 'conf_bar':
-                    if self.bar == 'conf_bar':
+                    if self.conf_bar:
                         self.findChild(
                             QtWidgets.QToolBar,
-                            self.bar
+                            'conf_bar'
                         ).deleteLater()  # type: ignore
-                        self.bar = ''
+                        self.conf_bar = False
                     else:
                         func()
 
@@ -155,7 +170,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def configurationBar(self) -> None:
         """Create the configuration bar."""
-        self.bar = 'conf_bar'
+        self.conf_bar = True
 
         tool_bar = QtWidgets.QToolBar('Configuration Bar')
         tool_bar.setObjectName('conf_bar')
@@ -251,6 +266,25 @@ class MainWindow(QtWidgets.QMainWindow):
         createSlider('Contrast', self.editor_engine.apply_contrast)
         createSlider('Brightness', self.editor_engine.apply_brightness)
         createSlider('Sharpness', self.editor_engine.apply_sharpness)
+
+    def github(self) -> None:
+        webbrowser.open(
+            'https://github.com/cj10-screaming-snakecases/code-jam-10'
+        )
+
+    def help(self) -> None:
+        with open(self.gui_dir / '../docs.md') as file:
+            docs = file.read()
+        dialog = QtWidgets.QDialog(self)
+        layout = QtWidgets.QVBoxLayout()
+        md_viewer = QtWidgets.QTextEdit()
+        md_viewer.setReadOnly(True)
+        md_viewer.setMarkdown(docs)
+        layout.addWidget(md_viewer)
+        dialog.setWindowTitle('Pixel Heist - Docs')
+        dialog.setLayout(layout)
+        dialog.setFixedSize(1000, 600)
+        dialog.exec()
 
 
 def main() -> None:
