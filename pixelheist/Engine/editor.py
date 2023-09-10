@@ -1,5 +1,6 @@
+from PIL import Image
+
 from pixelheist.Engine.layers import EditorLayer, LayerStack
-from pixelheist.Engine.tools import ImageTool
 
 
 class Editor:
@@ -14,9 +15,15 @@ class Editor:
     def render_output(self):
         return self.layers.render_output()
 
-    def apply(self, tool: ImageTool, *args, **kwargs):
-        self.selected_layer.apply(tool, *args, **kwargs)
+    def apply_contrast(self, amount: int):
+        self.selected_layer.contrast = amount
+
+    def apply_brightness(self, amount: int):
+        self.selected_layer.brightness = amount
+
+    def apply_sharpness(self, amount: int):
+        self.selected_layer.sharpness = amount
 
     @classmethod
-    def from_image(cls, image):
-        return cls(LayerStack([EditorLayer(image)]), 0)
+    def from_image(cls, image: Image.Image):
+        return cls(LayerStack([EditorLayer(image)], image.size), 0)

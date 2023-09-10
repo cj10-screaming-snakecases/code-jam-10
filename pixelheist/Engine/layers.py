@@ -65,7 +65,8 @@ class EditorLayer:
 
 
 class LayerStack:
-    def __init__(self, layers: Iterable[EditorLayer]):
+    def __init__(self, layers: Iterable[EditorLayer], size: tuple[int, int]):
+        self.size = size
         self.layers = list(layers)
         self._cached_output: ImageQt.ImageQt | None = None
 
@@ -75,7 +76,7 @@ class LayerStack:
                 and self._cached_output is not None:
             return self._cached_output
 
-        image_array = np.zeros([800, 800, 4], dtype=np.uint8)
+        image_array = np.zeros(self.size + (4,), dtype=np.uint8)
         for layer in self.layers:
             layer_image = np.asarray(layer.render())
             image_array = layer.blend_mode(image_array, layer_image)  # type: ignore
