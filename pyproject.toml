@@ -3,7 +3,10 @@ name = "pixelheist"
 version = "0.1.0"
 description = ""
 authors = [
-    "Techlord210 <techlord210@gmail.com>"
+    "Techlord210 <techlord210@gmail.com>",
+    "nidhi-2619 <nidhinishad02@gmail.com>",
+    "Daniel Gu <bobthebuilder10492@gmail.com>",
+    "Envxsion <ovxenvxsions12@gmail.com>"
 ]
 license = "MIT"
 
