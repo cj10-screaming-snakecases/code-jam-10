@@ -2,8 +2,10 @@
 import sys
 from pathlib import Path
 
-from PIL import ImageQt, Image
+from PIL import Image, ImageQt
 from PySide6 import QtCore, QtGui, QtWidgets
+
+from pixelheist.Engine import Editor
 
 # from ..Engine.editor.ImageTools import ImageTools
 
@@ -51,10 +53,8 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         """Initialize Main Window class."""
         super().__init__()
-        self.img = ImageQt.ImageQt(
-            Image.open(
-                r'E:\co\code-jam-10\pixelheist\Engine\test\img\testimage.png'
-            )
+        self.editor_engine = Editor.from_image(
+            Image.open("pixelheist/Engine/test/img/testimage.png")
         )
 
         self.initUI()
@@ -76,7 +76,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def imagePreview(self) -> None:
         label = QtWidgets.QLabel()
-        label.setPixmap(QtGui.QPixmap.fromImage(self.img))
+        label.setPixmap(QtGui.QPixmap.fromImage(self.editor_engine.render_output()))
         self.setCentralWidget(label)
 
     def titleBar(self) -> None:
