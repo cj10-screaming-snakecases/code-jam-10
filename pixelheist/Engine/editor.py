@@ -1,5 +1,6 @@
+from PIL import Image
+
 from pixelheist.Engine.layers import EditorLayer, LayerStack
-from pixelheist.Engine.tools import ImageTool
 
 
 class Editor:
@@ -24,5 +25,5 @@ class Editor:
         self.selected_layer.sharpness = amount
 
     @classmethod
-    def from_image(cls, image):
-        return cls(LayerStack([EditorLayer(image)]), 0)
+    def from_image(cls, image: Image.Image):
+        return cls(LayerStack([EditorLayer(image)], image.size), 0)

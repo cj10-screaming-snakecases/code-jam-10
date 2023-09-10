@@ -7,7 +7,7 @@ logging.basicConfig(filename='pixelheist/Engine/test/logs/image_metadata.log', l
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Load the image
-image_path = 'pixelheist/Engine/test/img/flag_geoloc_image.png'  # Update with your image path
+image_path = 'pixelheist/Engine/test/img/imgflag_metadata_image.png'  # Update with your image path
 
 try:
     image = Image.open(image_path)
