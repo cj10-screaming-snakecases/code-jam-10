@@ -5,8 +5,13 @@ import numpy as np
 from PIL import Image, ImageQt
 
 from pixelheist.Engine.editor import blendmodes
+from pixelheist.Engine.editor.tools import ImageTool
 
 ImageType = Image.Image
+
+
+class LayerIsLocked(Exception):
+    pass
 
 
 @dataclass
@@ -16,13 +21,19 @@ class EditorLayer:
     locked: bool = False
     modified: bool = False
 
+    def apply(self, func: ImageTool, *args, **kwargs) -> None:
+        if self.locked:
+            raise LayerIsLocked
+        self.image = func(self.image, *args, **kwargs)
+        self.modified = True
+
 
 class LayerStack:
     def __init__(self, layers: Iterable[EditorLayer]):
         self.layers = list(layers)
         self._cached_output: ImageQt.ImageQt | None = None
 
-    def get_final_image(self) -> ImageQt.ImageQt:
+    def render_output(self) -> ImageQt.ImageQt:
         # Use cached output
         if not any(layer.modified for layer in self.layers) \
                 and self._cached_output is not None:
