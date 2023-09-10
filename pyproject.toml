@@ -2,11 +2,13 @@
 name = "pixelheist"
 version = "0.1.0"
 description = ""
-authors = ["Author 1 <email@mail.com>"]
+authors = [
+    "Techlord210 <techlord210@gmail.com>"
+]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "3.11.*"
+python = "^3.10"
 
 # Graphical User Interface
 pyside6 = "^6.5.2"
