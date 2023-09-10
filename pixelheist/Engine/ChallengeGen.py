@@ -26,7 +26,8 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    def random_flag(self, form):
+    @staticmethod
+    def random_flag(form):
         if form:
             length = 6
             choices = string.ascii_uppercase
@@ -35,7 +36,8 @@ class ForensicChallengeGenerator:
             choices = string.ascii_letters + string.digits
         return "SNAKE{" + "".join(random.choices(choices, k=length)) + "}"
 
-    def random_meta_gen(self):
+    @staticmethod
+    def random_meta_gen():
         metadata = {
             "Author": random.choice(["Alice", "Bob", "Charlie"]),
             "Date": f"{random.randint(2000, 2023)}-{random.randint(1, 12)}-{random.randint(1, 28)}",
@@ -47,7 +49,8 @@ class ForensicChallengeGenerator:
         }
         return metadata
 
-    def random_encryption_technique(self):
+    @staticmethod
+    def random_encryption_technique():
         encryption_techniques = [
             # "AES",
             # "RSA",
@@ -59,7 +62,8 @@ class ForensicChallengeGenerator:
         ]
         return random.choice(encryption_techniques)
 
-    def encrypt_flag(self, flag, technique):
+    @staticmethod
+    def encrypt_flag(flag, technique):
         # if technique == "AES":
         #     key = Fernet.generate_key()
         #     f = Fernet(key)
@@ -215,11 +219,11 @@ class ForensicChallengeGenerator:
             logging.debug(f'Flag hidden in the image with Gaussian noise: {flag}')
         else:
             logging.error("Image not found. Please check the image path.")
-    
+
     def hide_flag_in_colorshift(self):
         constant_value = random.randint(100, 255)
         if self.image:
-            #copy
+            # copy
             image_with_flag = self.image.copy()
             draw = ImageDraw.Draw(image_with_flag)
 
@@ -245,10 +249,11 @@ class ForensicChallengeGenerator:
 
             image_with_flag.save('pixelheist/Engine/test/img/flag_color_shift.png')
 
-            logging.debug(f'Color shifting challenge applied with constant value {constant_value}. Flag hidden in the image.')
+            logging.debug(
+                f'Color shifting challenge applied with constant value {constant_value}. Flag hidden in the image.'
+            )
         else:
             logging.error("Image not found. Please check the image path.")
-
 
 
 # Example usage:
