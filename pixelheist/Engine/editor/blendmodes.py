@@ -19,3 +19,32 @@ def none(base: ImageArray, new: ImageArray) -> ImageArray:
 
 def multiply(base: ImageArray, new: ImageArray) -> ImageArray:
     return base * new // 255
+
+
+def screen(base: ImageArray, new: ImageArray) -> ImageArray:
+    return 255 - (255 - base) * (255 - new) // 255
+
+
+def overlay(base: ImageArray, new: ImageArray) -> ImageArray:
+    result = base * new // 255
+    result[base >= 128] = 255 - (255 - base) * (255 - new) // 255
+    return result * 2
+
+
+def difference(base: ImageArray, new: ImageArray) -> ImageArray:
+    result = base - new
+    result[new > base] = new - base
+    return result
+
+
+def color_dodge(base: ImageArray, new: ImageArray) -> ImageArray:
+    return base // (255 - new)
+
+
+def color_burn(base: ImageArray, new: ImageArray) -> ImageArray:
+    return 255 - (255 - base) / new
+
+
+darken_only: BlendMode = np.minimum
+
+lighten_only: BlendMode = np.maximum
