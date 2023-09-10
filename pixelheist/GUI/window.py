@@ -46,6 +46,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pixmap = QtGui.QPixmap.fromImage(
             self.editor_engine.render_output()
         )
+        pixmap = pixmap.scaled(600, 600, QtCore.Qt.KeepAspectRatio)
         self.img_label.setPixmap(pixmap)
         widget = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout()
@@ -53,6 +54,8 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.addWidget(self.img_label)
         widget.setLayout(layout)
         self.setCentralWidget(widget)
+
+        self.img_label.setScaledContents(True)
 
     def titleBar(self) -> None:
         """Create the title bar."""
