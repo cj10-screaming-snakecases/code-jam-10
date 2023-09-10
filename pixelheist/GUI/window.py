@@ -7,45 +7,6 @@ from PySide6 import QtCore, QtGui, QtWidgets
 
 from pixelheist.Engine import Editor
 
-# from ..Engine.editor.ImageTools import ImageTools
-
-# class MagnifierWidget(QtWidgets.QWidget):
-#     """Widget used to display Magnifier."""
-
-#     def __init__(self, image):
-#         """Initialize the Magnifier."""
-#         super().__init__()
-#         self.image = image
-#         self.zoom = 2
-#         self.slider = None
-
-#         self._view = QtWidgets.QGraphicsView()
-#         self.scene = QtWidgets.QGraphicsScene()
-#         self._view.setScene(self.scene)
-
-#         self._layout = QtWidgets.QVBoxLayout()
-#         self._layout.addWidget(self._view)
-#         self.setLayout(self._layout)
-
-#         self.display_magnified_image()
-
-#     def display_magnified_image(self) -> None:
-#         """Magnifies the image from scale 1 - 6."""
-#         if self.image:
-#             magnified = self.image.scaled(
-#                 self.image.width() * self.zoom,
-#                 self.image.height() * self.zoom
-#             )
-#             pixmap = QtGui.QPixmap.fromImage(magnified)
-
-#             self.scene.clear()
-#             self.scene.addPixmap(pixmap)
-
-#     def update_magnified_image(self) -> None:
-#         """Update the image according to the slider."""
-#         self.zoom = self.slider.value()
-#         self.display_magnified_image()
-
 
 class MainWindow(QtWidgets.QMainWindow):
     """Create a new window."""
@@ -54,14 +15,16 @@ class MainWindow(QtWidgets.QMainWindow):
         """Initialize Main Window class."""
         super().__init__()
         self.editor_engine = Editor.from_image(
-            Image.open("pixelheist/Engine/test/img/testimage.png")
+            Image.open("pixelheist/Engine/test/img/portrait.png")
         )
+
+        self.bar = ''
 
         self.initUI()
 
     def initUI(self) -> None:
         """Initialize the main layout and window settings."""
-        self.resize(1000, 670)
+        self.setFixedSize(1110, 670)
 
         qrect = self.frameGeometry()
         center_point = self.screen().availableGeometry().center()
@@ -75,9 +38,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.imagePreview()
 
     def imagePreview(self) -> None:
-        label = QtWidgets.QLabel()
-        label.setPixmap(QtGui.QPixmap.fromImage(self.editor_engine.render_output()))
-        self.setCentralWidget(label)
+        self.img_label = QtWidgets.QLabel()
+        pixmap = QtGui.QPixmap.fromImage(
+            self.editor_engine.render_output()
+        )
+        self.img_label.setPixmap(pixmap)
+
+        widget = QtWidgets.QWidget()
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(self.img_label)
+        widget.setLayout(layout)
+        self.setCentralWidget(widget)
 
     def titleBar(self) -> None:
         """Create the title bar."""
@@ -127,9 +98,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         gui_dir = Path(__file__).parent
         button_assests = [
-            (gui_dir / 'icons/zoom.png', self.magnifier),
-            (gui_dir / 'icons/hand.png', self.hand),
-            (gui_dir / 'icons/properties.png', self.configurationBar)
+            (
+                gui_dir / 'icons/properties.png',
+                self.configurationBar,
+                'conf_bar'
+            )
         ]
 
         vertical_layout = QtWidgets.QVBoxLayout()
@@ -141,7 +114,21 @@ class MainWindow(QtWidgets.QMainWindow):
         widget.setLayout(vertical_layout)
         tool_bar.addWidget(widget)
 
-        for icon_path, action in button_assests:
+        def buttonFunc(func, name):
+            def switcher():
+                if name == 'conf_bar':
+                    if self.bar == 'conf_bar':
+                        self.findChild(
+                            QtWidgets.QToolBar,
+                            self.bar
+                        ).deleteLater()  # type: ignore
+                        self.bar = ''
+                    else:
+                        func()
+
+            return switcher
+
+        for icon_path, action, name in button_assests:
             button = QtWidgets.QPushButton()
             button.setStyleSheet(
                 """
@@ -160,7 +147,7 @@ class MainWindow(QtWidgets.QMainWindow):
             )
             icon = QtGui.QIcon(str(icon_path))
             button.setIcon(icon)
-            button.clicked.connect(action)
+            button.clicked.connect(buttonFunc(action, name))
             button.setIconSize(QtCore.QSize(20, 20))
             vertical_layout.addWidget(button)
 
@@ -168,6 +155,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def configurationBar(self) -> None:
         """Create the configuration bar."""
+        self.bar = 'conf_bar'
+
         tool_bar = QtWidgets.QToolBar('Configuration Bar')
         tool_bar.setObjectName('conf_bar')
         tool_bar.setStyleSheet(
@@ -187,11 +176,20 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.addToolBar(QtCore.Qt.ToolBarArea.RightToolBarArea, tool_bar)
 
-        def sliderFunc(func, value_text: QtWidgets.QLabel, slider):
+        def sliderFunc(
+            func,
+            value_text: QtWidgets.QLabel,
+            slider: QtWidgets.QSlider
+        ):
             def value_changer():
                 value_text.setText(str(slider.value()))
-                print(slider.value())
-                # self.img = func(slider.value())
+                func(slider.value())
+                self.img_label.setPixmap(
+                    QtGui.QPixmap.fromImage(
+                        self.editor_engine.render_output()
+                    )
+                )
+
             return value_changer
 
         def createSlider(
@@ -242,22 +240,22 @@ class MainWindow(QtWidgets.QMainWindow):
             config_layout.addLayout(labels_layout)
             config_layout.addWidget(slider)
 
-            slider.valueChanged.connect(sliderFunc(func, text_value, slider))
+            slider.valueChanged.connect(
+                sliderFunc(
+                    func,
+                    text_value,
+                    slider,
+                )
+            )
 
-        # createSlider('Contrast', self.img.zoom)
-        # createSlider('Brightness', self.img.zoom)
-        # createSlider('Sharpness', self.img.zoom)
-
-    def hand(self) -> None:
-        pass
-
-    def magnifier(self) -> None:
-        pass
+        createSlider('Contrast', self.editor_engine.apply_contrast)
+        createSlider('Brightness', self.editor_engine.apply_brightness)
+        createSlider('Sharpness', self.editor_engine.apply_sharpness)
 
 
 def main() -> None:
     """Entry Point."""
-    app = QtWidgets.QApplication([])
+    app = QtWidgets.QApplication()
 
     window = MainWindow()
     window.show()
