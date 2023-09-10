@@ -1,3 +1,3 @@
-from .GUI import window
+from pixelheist.GUI import window
 
 window.main()
