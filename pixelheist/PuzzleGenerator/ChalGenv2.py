@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont, PngImagePlugin
 logging.basicConfig(filename='pixelheist/Engine/test/logs/ChalGen.log', level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+
 class ForensicChallengeGenerator:
     def __init__(self, image_path):
         self.geolocator = Nominatim(user_agent="geo_flag_generator")
@@ -25,7 +26,8 @@ class ForensicChallengeGenerator:
         else:
             logging.error("Image not found. Please check the image path.")
 
-    def random_flag(self, form):
+    @staticmethod
+    def random_flag(form):
         if form:
             length = 6
             choices = string.ascii_uppercase
@@ -34,7 +36,8 @@ class ForensicChallengeGenerator:
             choices = string.ascii_letters + string.digits
         return "SNAKE{" + "".join(random.choices(choices, k=length)) + "}"
 
-    def random_meta_gen(self):
+    @staticmethod
+    def random_meta_gen():
         metadata = {
             "Author": random.choice(["Alice", "Bob", "Charlie"]),
             "Date": f"{random.randint(2000, 2023)}-{random.randint(1, 12)}-{random.randint(1, 28)}",
@@ -56,7 +59,8 @@ class ForensicChallengeGenerator:
         ]
         return random.choice(encryption_techniques)
 
-    def encrypt_flag(self, flag, technique, max_length=20):
+    @staticmethod
+    def encrypt_flag(flag, technique, max_length=20):
         if len(flag) > max_length:
             print(flag)
             raise ValueError(f"Flag length ({len(flag)}) exceeds the maximum length ({max_length}).")
@@ -81,7 +85,6 @@ class ForensicChallengeGenerator:
 
         return encrypted_flag
 
-
     def hide_flag_in_image(self):
         if self.image:
             flag = self.random_flag(True)  # Initialize with a random flag text
@@ -90,8 +93,8 @@ class ForensicChallengeGenerator:
             image_with_flag = self.image.copy()
             draw = ImageDraw.Draw(image_with_flag)
 
-            font = ImageFont.truetype("arial.ttf", 8)  
-            draw.text((350, 300), flag, font=font, fill="black")  
+            font = ImageFont.truetype("arial.ttf", 8)
+            draw.text((350, 300), flag, font=font, fill="black")
 
             image_with_flag.save('pixelheist/Engine/test/img/flag_image_with_text.png')
 
@@ -101,7 +104,7 @@ class ForensicChallengeGenerator:
             logging.error("Image not found. Please check the image path.")
             return None
 
-    def hide_flag_in_metadata(self, prev_solution=None):
+    def hide_flag_in_metadata(self):
         if self.image:
             flag = self.random_flag(True)  # Initialize with a random flag text
 
@@ -134,9 +137,7 @@ class ForensicChallengeGenerator:
             logging.error("Image not found. Please check the image path.")
             return None
 
-
-
-    def hide_flag_in_geoloc(self, prev_solution=None):
+    def hide_flag_in_geoloc(self):
         if not self.image:
             logging.error("Image not found. Please check the image path.")
             return None
@@ -202,9 +203,9 @@ class ForensicChallengeGenerator:
 
             noisy_image = Image.fromarray(noisy_image)
 
-            font = ImageFont.truetype("arial.ttf", 8)  
+            font = ImageFont.truetype("arial.ttf", 8)
             draw = ImageDraw.Draw(noisy_image)
-            draw.text((300, 260), flag, font=font, fill="black")  
+            draw.text((300, 260), flag, font=font, fill="black")
 
             noisy_image.save('pixelheist/Engine/test/img/flag_with_gaussian_noise.png')
 
@@ -224,10 +225,10 @@ class ForensicChallengeGenerator:
             pixels = image_with_flag.load()
             # Add flag before encrypting
             flag = self.random_flag(True)
-            font = ImageFont.truetype("arial.ttf", 20)  
+            font = ImageFont.truetype("arial.ttf", 20)
             flag_x = width // 2
             flag_y = height // 2
-            draw.text((flag_x, flag_y), flag, font=font, fill="black")  
+            draw.text((flag_x, flag_y), flag, font=font, fill="black")
             step = 0  # Randomness value
             for x in range(width):
                 for y in range(height):
@@ -238,7 +239,8 @@ class ForensicChallengeGenerator:
                     pixels[x, y] = (r, g, b)
                     step += 1  # Increment step for each pixel
             image_with_flag.save('pixelheist/Engine/test/img/flag_color_shift.png')
-            logging.debug(f'Color shifting challenge applied with constant value {constant_value}. Flag hidden in the image.')
+            logging.debug(
+                f'Color shifting challenge applied with constant value {constant_value}. Flag hidden in the image.')
             return flag
         else:
             logging.error("Image not found. Please check the image path.")
@@ -246,8 +248,6 @@ class ForensicChallengeGenerator:
 
     def generate_challenge(self, num_levels=5):
         challenges = []
-        flag = None
-        prev_challenge_solution = None
 
         for level in range(1, num_levels + 1):
             level_challenges = []
@@ -257,32 +257,29 @@ class ForensicChallengeGenerator:
             if level == 1:
                 flag = self.hide_flag_in_image()
                 level_challenges.append(f'Flag added to the image: {flag}')
-                prev_challenge_solution = flag
 
             # Level 2: Encrypt the flag in metadata
             if level >= 2:
-                flag = self.hide_flag_in_metadata(prev_challenge_solution)
+                flag = self.hide_flag_in_metadata()
                 level_challenges.append(f'Flag encrypted in metadata: {flag}')
-                prev_challenge_solution = flag
 
             # Level 3: Encrypt the flag and add to geolocation
             if level >= 3:
-                flag = self.hide_flag_in_geoloc(prev_challenge_solution)
+                flag = self.hide_flag_in_geoloc()
                 level_challenges.append(f'Flag added to geolocation: {flag}')
-                prev_challenge_solution = flag
 
             # Level 4: Add flag to noise and color shift
             if level >= 4:
                 flag = self.hide_flag_in_noise(prev_challenge_solution)
                 flag = self.hide_flag_in_colorshift(flag)
                 level_challenges.append(f'Flag added to the image with Gaussian noise and color shift: {flag}')
-                prev_challenge_solution = flag
 
             challenges.append(level_challenges)
 
         return challenges
 
-    def generate_hints(self, challenges):
+    @staticmethod
+    def generate_hints(challenges):
         hints = []
         for level_challenges in challenges:
             level_hints = []
@@ -293,7 +290,8 @@ class ForensicChallengeGenerator:
             hints.append(level_hints)
         return hints
 
-    def generate_solutions(self, challenges):
+    @staticmethod
+    def generate_solutions(challenges):
         solutions = []
         for level_challenges in challenges:
             level_solutions = []
@@ -305,9 +303,8 @@ class ForensicChallengeGenerator:
         return solutions
 
 
-
 if __name__ == '__main__':
-    #input image
+    # input image
     image_path = 'pixelheist/Engine/test/img/How-to-Generate-Random-Numbers-in-Python.jpg'
     logging.debug(f'Image path: {image_path}')
 
